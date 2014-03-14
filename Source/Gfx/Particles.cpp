@@ -38,6 +38,8 @@ Particle::Particle(Vec2 const &origin, Vec2 const &velocity, float lifeTime, Col
 
 //////////////////////////////////////////////////////////////////////
 
+// change
+
 bool Particle::Calc(float time, Vec2 &pos, Color &color)
 {
 	float timeScalar = time / mLifeTime;
