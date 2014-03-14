@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////
+
+#include "pch.h"
+
+//////////////////////////////////////////////////////////////////////
+
+struct ResultsUI : UI::Screen
+{
+	//////////////////////////////////////////////////////////////////////
+
+	Font *					mHeaderFont;
+	Texture *				mCloseTexture;
+	UI::ImageButton *		mCloseButton;
+	UI::Rectangle *			mFillRectangle;
+	HeaderBar *				mHeaderBar;
+	std::function<void()>	OnClose;
+
+	// the screens
+	Leaderboard *			mLeaderboard;
+	Summary *				mSummary;
+
+	//////////////////////////////////////////////////////////////////////
+
+	ResultsUI(SpriteList *spriteList);
+	~ResultsUI();
+	void Activate(bool active);
+
+};

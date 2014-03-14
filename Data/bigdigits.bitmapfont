@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE BitmapFont>
+<BitmapFont PageCount="1" Height="72" InternalLeading="0" Baseline="48.76172">
+  <Graph>
+    <Nodes Count="5">
+      <LayerNode id="0" inputs="1" outputs="0" X="553" Y="65" Index="0">
+        <Parameter Name="Color" Type="Color" ARGB="FFFFFFFF" />
+        <Parameter Name="Offset" Type="RangedPointF" MinX="-50" MaxX="50" MinY="-50" MaxY="50" X="0" Y="0" />
+        <Parameter Name="Measure" Type="Boolean" value="False" />
+      </LayerNode>
+      <FontNode id="1" inputs="0" outputs="1" X="66" Y="66">
+        <Parameter Name="Render Type" Type="RenderType" value="2" />
+        <Parameter Name="Font" Type="TTFont" family="Cooper" face="Black" size="72" />
+        <Parameter Name="Options" Type="FontDescriptor" Outline="0" AntiAlias="1" Rounded="0" />
+      </FontNode>
+      <FontNode id="2" inputs="0" outputs="1" X="57" Y="168">
+        <Parameter Name="Render Type" Type="RenderType" value="2" />
+        <Parameter Name="Font" Type="TTFont" family="Cooper" face="Black" size="72" />
+        <Parameter Name="Options" Type="FontDescriptor" Outline="4" AntiAlias="1" Rounded="0" />
+      </FontNode>
+      <FunctionNode id="3" inputs="1" outputs="1" X="175" Y="168" Plugin="Ops" Function="Multiply">
+        <Parameter Name="Color" Type="Color" ARGB="FF000000" />
+      </FunctionNode>
+      <FunctionNode id="4" inputs="2" outputs="1" X="391" Y="77" Plugin="Ops" Function="Combine" />
+    </Nodes>
+    <Connections Count="4">
+      <Connection FromNode="1" FromSocket="0" ToNode="4" ToSocket="0" FromX="135" FromY="93" ToX="392" ToY="92" />
+      <Connection FromNode="2" FromSocket="0" ToNode="3" ToSocket="0" FromX="126" FromY="195" ToX="176" ToY="195" />
+      <Connection FromNode="3" FromSocket="0" ToNode="4" ToSocket="1" FromX="244" FromY="195" ToX="392" ToY="115" />
+      <Connection FromNode="4" FromSocket="0" ToNode="0" ToSocket="0" FromX="460" FromY="104" ToX="554" ToY="92" />
+    </Connections>
+  </Graph>
+  <Layers Count="1">
+    <Layer offsetX="0" offsetY="0" color="FFFFFFFF" />
+  </Layers>
+  <Glyphs Count="5">
+    <Glyph char="49" images="1" advance="43.20703">
+      <Graphic offsetX="0.8125" offsetY="6.050781" x="184" y="1" w="42" h="46" page="0" />
+    </Glyph>
+    <Glyph char="50" images="1" advance="43.20703">
+      <Graphic offsetX="-1.367188" offsetY="6.050781" x="138" y="1" w="45" h="48" page="0" />
+    </Glyph>
+    <Glyph char="51" images="1" advance="43.20703">
+      <Graphic offsetX="-2.140625" offsetY="6.050781" x="47" y="1" w="46" h="52" page="0" />
+    </Glyph>
+    <Glyph char="52" images="1" advance="43.20703">
+      <Graphic offsetX="-1.191406" offsetY="3.378906" x="1" y="1" w="45" h="54" page="0" />
+    </Glyph>
+    <Glyph char="53" images="1" advance="43.20703">
+      <Graphic offsetX="0.2851563" offsetY="6.542969" x="94" y="1" w="43" h="52" page="0" />
+    </Glyph>
+  </Glyphs>
+</BitmapFont>

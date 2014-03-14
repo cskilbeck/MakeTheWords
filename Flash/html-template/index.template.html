@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>Make The Words</title>
+
+		<meta name="google" value="notranslate" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="requiresActiveX=true" />
+
+		<style type="text/css" media="screen">
+
+			html, body
+			{
+				height:100%;
+			}
+
+			body
+			{
+				margin:0;
+				padding:0;
+				overflow:auto;
+				text-align:center;
+				background-color: #205040;
+			}
+
+			object:focus
+			{
+				outline:none;
+			}
+			
+			#headerDiv
+			{
+			}
+			
+			#fb-root
+			{
+				display:none;
+			}
+
+			#flashContent
+			{
+				display:none;
+			}
+
+			#footer
+			{
+				list-style-position:inside;
+				text-indent:50px;
+				text-align:left;
+				color: #ffffff;
+			}
+
+			#footer2
+			{
+				text-indent:80px;
+				text-align:left;
+				color: #ffffff;
+			}
+		</style>
+
+		<!-- Enable Browser History by replacing useBrowserHistory tokens with two hyphens -->
+		<!-- BEGIN Browser History required section ${useBrowserHistory}>
+		<link rel="stylesheet" type="text/css" href="history/history.css" />
+		<script type="text/javascript" src="history/history.js"></script>
+		<!${useBrowserHistory} END Browser History required section -->
+
+		<script type="text/javascript" src="swfobject.js"></script>
+
+		<script type="text/javascript">
+
+			//////////////////////////////////////////////////////////////////////
+			
+			var facebookID;
+			var facebookName;
+
+			//////////////////////////////////////////////////////////////////////
+			
+			function dalert(x)
+			{
+				//alert(x);
+			}
+
+			//////////////////////////////////////////////////////////////////////
+
+			function startGame()
+			{
+				var swfVersionStr = "${version_major}.${version_minor}.${version_revision}";
+
+				var xiSwfUrlStr = "${expressInstallSwf}";
+
+				var flashvars = {};
+					flashvars.FBID = facebookID;
+					flashvars.FBName = facebookName;
+					flashvars.protocol = window.location.protocol;
+
+				var params = {};
+					params.quality = "high";
+					params.bgcolor = "${bgcolor}";
+					params.allowscriptaccess = "sameDomain";
+					params.allowfullscreen = "true";
+
+				var attributes = {};
+					attributes.id = "${application}";
+					attributes.name = "${application}";
+					attributes.align = "middle";
+
+				swfobject.embedSWF("${swf}.swf?t=" + new Date().getTime(), "flashContent", "${width}", "${height}", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);
+	
+				// JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+				swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+			}
+			
+			function getFacebookID()
+			{
+				FB.api('/me', function(response) {
+					facebookID = response.id;
+					facebookName = response.name;
+					startGame();
+				});
+			}
+			
+			//////////////////////////////////////////////////////////////////////
+
+			function loggedIn(response)
+			{
+		        if (response.authResponse)
+		        {
+					dalert("8");
+		        	getFacebookID();
+		        }
+		        else
+		        {
+					dalert("9");
+					dalert("Facebook login failed...");
+		        }
+			}
+
+			//////////////////////////////////////////////////////////////////////
+
+			function login()
+			{
+			    FB.login(loggedIn);
+			}
+			
+			//////////////////////////////////////////////////////////////////////
+
+			function gotLoginStatus(response)
+			{
+				dalert("4");
+				if (response.status === 'connected')
+				{
+					dalert("5");
+		        	getFacebookID();
+				}
+				else if(response.status === 'not_authorized')
+				{
+					dalert("6");
+					login();
+				}
+				else
+				{
+					dalert("7");
+					login();
+				}
+			}
+
+			//////////////////////////////////////////////////////////////////////
+
+			function loadFacebookSDK(d, debug)
+			{
+				var js;
+				var id = 'facebook-jssdk'
+				var ref = d.getElementsByTagName('script')[0];
+				if (d.getElementById(id))
+				{
+					return;
+				}
+				js = d.createElement('script');
+				js.id = id;
+				js.async = true;
+				if(window.location.protocol != "file:")
+				{
+					js.src = window.location.protocol + "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+					ref.parentNode.insertBefore(js, ref);
+				}
+				else
+				{
+					startGame();
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////////////
+
+			window.fbAsyncInit = function()
+			{
+				dalert("2");
+				// init the FB JS SDK
+				FB.init({	appId      : '224932627603132', // App ID from the App Dashboard
+							channelUrl : '//www.ice-cream-software.com/channel.php', // Channel File for x-domain communication
+							status     : true, // check the login status upon init?
+							cookie     : true, // set sessions cookies to allow your server to access the session?
+							xfbml      : true  // parse XFBML tags on this page?
+						});
+				dalert("3");
+				FB.getLoginStatus(gotLoginStatus);
+			};
+
+			loadFacebookSDK(document, true);
+		</script>
+	</head>
+    <body>
+		<div id="headerDiv">
+			<p>
+				<img src="https://s3.amazonaws.com/IceCreamSoftware/banner.png"/>
+			</p>
+		</div>
+		<div id="fb-root"></div>
+		<div id="flashContent">
+			<p>
+				To view this page ensure that Adobe Flash Player version 
+				${version_major}.${version_minor}.${version_revision} or greater is installed. 
+			</p>
+			<script type="text/javascript">
+				var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://");
+				document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" );
+			</script>
+		</div>
+		<div id="footer">
+			<p>&nbsp;</p>
+			<p>How to play:</p>
+			<div id="footer2">
+				<em>
+					<ul>
+						<li>Shuffle and swap the letters around to make words</li>
+						<li>Each game lasts for 3 minutes</li>
+						<li>Get the highest score you can!</li>
+					</ul>
+				</em>
+			</div>
+			<p>Scoring is simple:</p>
+			<div id="footer2">
+				<em>
+					<ul>
+						<li>Each word scores all the letter points times the length of the word</li>
+						<li>Then all the word scores are added together</li>
+						<li>That's your score - see the letter points below</a></li>
+					</ul>
+				</em>
+			</div>
+			<p>Good Luck!</p>
+		</div>
+		<noscript>
+			<p>Javascript is required in order for this game to work...</p>
+		</noscript>
+	</body>
+</html>

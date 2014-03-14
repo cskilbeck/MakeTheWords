@@ -1,0 +1,4 @@
+FdtUpdateCheck=true
+com.powerflasher.fdt.ui.preferences.FlashBasePreferences.FLASHEXPLORER_SHOW_HIERARCHICAL_LAYOUT=false
+eclipse.preferences.version=1
+useFlashNature=true

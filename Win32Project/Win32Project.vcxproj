@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="D3D_Debug|Win32">
+      <Configuration>D3D_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="D3D_Release|Win32">
+      <Configuration>D3D_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OpenGL_Debug|Win32">
+      <Configuration>OpenGL_Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="OpenGL_Release|Win32">
+      <Configuration>OpenGL_Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\Base\App.cpp" />
+    <ClCompile Include="..\Source\Base\Component.cpp" />
+    <ClCompile Include="..\Source\Base\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Base\Random.cpp" />
+    <ClCompile Include="..\Source\Base\Touch.cpp" />
+    <ClCompile Include="..\Source\Base\UTF8.cpp" />
+    <ClCompile Include="..\Source\Base\Vec2.cpp" />
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2BroadPhase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2CollideCircle.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2CollideEdge.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2CollidePolygon.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2Collision.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2Distance.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2DynamicTree.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\b2TimeOfImpact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\Shapes\b2ChainShape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\Shapes\b2CircleShape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\Shapes\b2EdgeShape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Collision\Shapes\b2PolygonShape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2BlockAllocator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2Draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2Math.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2Settings.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2StackAllocator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Common\b2Timer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2Body.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2ContactManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2Fixture.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2Island.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2World.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\b2WorldCallbacks.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2Contact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2GearJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2Joint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Box2D\Box2D\Rope\b2Rope.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\Source\Dictionary\Dictionary.cpp" />
+    <Text Include="..\Source\Fluid\Constants.cpp" />
+    <Text Include="..\Source\Fluid\Grid.cpp" />
+    <Text Include="..\Source\Fluid\Neighbour.cpp" />
+    <Text Include="..\Source\Fluid\Particle.cpp" />
+    <Text Include="..\Source\Fluid\Spring.cpp" />
+    <Text Include="..\Source\Fluid\World.cpp" />
+    <ClCompile Include="..\Source\Dictionary\Letter.cpp" />
+    <ClCompile Include="..\Source\Game\Board.cpp" />
+    <ClCompile Include="..\Source\Game\DefinitionScreen.cpp" />
+    <ClCompile Include="..\Source\Game\Game.cpp" />
+    <ClCompile Include="..\Source\Game\Leaderboard.cpp" />
+    <ClCompile Include="..\Source\Game\ResultsUI.cpp" />
+    <ClCompile Include="..\Source\Game\Summary.cpp" />
+    <ClCompile Include="..\Source\Game\Tile.cpp" />
+    <ClCompile Include="..\Source\Game\Word.cpp" />
+    <ClCompile Include="..\Source\Gfx\Font.cpp" />
+    <ClCompile Include="..\Source\Gfx\Particles.cpp" />
+    <ClCompile Include="..\Source\Gfx\SpriteList.cpp" />
+    <ClCompile Include="..\Source\MainUI.cpp" />
+    <ClCompile Include="..\Source\MakeTheWords.cpp" />
+    <ClCompile Include="..\Source\RapidXML\xml_util.cpp" />
+    <ClCompile Include="..\Source\UI\UIDocument.cpp" />
+    <ClCompile Include="..\Source\UI\UIItem.cpp" />
+    <ClCompile Include="..\Source\UI\UIRectangle.cpp" />
+    <ClCompile Include="..\Source\UI\UITextButton.cpp" />
+    <ClCompile Include="..\Source\Win32\D3D\D3D.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\D3D\WICTextureLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\D3D\Win32SpriteList.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\D3D\Win32Texture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\Facebook.cpp" />
+    <ClCompile Include="..\Source\Win32\Keyboard.cpp" />
+    <ClCompile Include="..\Source\Win32\OpenGL\OpenGL.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\OpenGL\OpenGLSpriteList.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\OpenGL\OpenGLTexture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\OpenGL\PngLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Source\Win32\Screen.cpp" />
+    <ClCompile Include="..\Source\Win32\strptime.cpp" />
+    <ClCompile Include="..\Source\Win32\URLLoader.cpp" />
+    <ClCompile Include="..\Source\Win32\Util.cpp" />
+    <ClCompile Include="..\Source\Win32\WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\Base\App.h" />
+    <ClInclude Include="..\Source\Base\CodeTimer.h" />
+    <ClInclude Include="..\Source\Base\Component.h" />
+    <ClInclude Include="..\Source\Base\LinkedList.h" />
+    <ClInclude Include="..\Source\Base\linked_list.h" />
+    <ClInclude Include="..\Source\Base\pch.h" />
+    <ClInclude Include="..\Source\Base\Point.h" />
+    <ClInclude Include="..\Source\Base\Pool.h" />
+    <ClInclude Include="..\Source\Base\Random.h" />
+    <ClInclude Include="..\Source\Base\Refcount.h" />
+    <ClInclude Include="..\Source\Base\ScopedObject.h" />
+    <ClInclude Include="..\Source\Base\Size.h" />
+    <ClInclude Include="..\Source\Base\Touch.h" />
+    <ClInclude Include="..\Source\Base\Types.h" />
+    <ClInclude Include="..\Source\Base\URLLoader.h" />
+    <ClInclude Include="..\Source\Base\UTF8.h" />
+    <ClInclude Include="..\Source\Base\Util.h" />
+    <ClInclude Include="..\Source\Base\Value.h" />
+    <ClInclude Include="..\Source\Base\Vec2.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Box2D.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2Draw.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2Math.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2Settings.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Common\b2Timer.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="..\Source\Box2D\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="..\Source\Dictionary\Dictionary.h" />
+    <ClInclude Include="..\Source\Dictionary\Letter.h" />
+    <ClInclude Include="..\Source\Facebook\Facebook.h" />
+    <ClInclude Include="..\Source\Fluid\Constants.h" />
+    <ClInclude Include="..\Source\Fluid\FlagMap.h" />
+    <ClInclude Include="..\Source\Fluid\Grid.h" />
+    <ClInclude Include="..\Source\Fluid\Neighbour.h" />
+    <ClInclude Include="..\Source\Fluid\Particle.h" />
+    <ClInclude Include="..\Source\Fluid\Position.h" />
+    <ClInclude Include="..\Source\Fluid\Spring.h" />
+    <ClInclude Include="..\Source\Fluid\World.h" />
+    <ClInclude Include="..\Source\Game\Board.h" />
+    <ClInclude Include="..\Source\Game\DefinitionScreen.h" />
+    <ClInclude Include="..\Source\Game\Game.h" />
+    <ClInclude Include="..\Source\Game\Index.h" />
+    <ClInclude Include="..\Source\Game\InGameUI.h" />
+    <ClInclude Include="..\Source\Game\Leaderboard.h" />
+    <ClInclude Include="..\Source\Game\ResultsUI.h" />
+    <ClInclude Include="..\Source\Game\Summary.h" />
+    <ClInclude Include="..\Source\Game\Tile.h" />
+    <ClInclude Include="..\Source\Game\Word.h" />
+    <ClInclude Include="..\Source\Gfx\Color.h" />
+    <ClInclude Include="..\Source\Gfx\Font.h" />
+    <ClInclude Include="..\Source\Gfx\Graphics.h" />
+    <ClInclude Include="..\Source\Gfx\Particles.h" />
+    <ClInclude Include="..\Source\Gfx\Screen.h" />
+    <ClInclude Include="..\Source\Gfx\SpriteList.h" />
+    <ClInclude Include="..\Source\Gfx\Texture.h" />
+    <ClInclude Include="..\Source\iOS\Facebook.h" />
+    <ClInclude Include="..\Source\MainUI.h" />
+    <ClInclude Include="..\Source\MakeTheWords.h" />
+    <ClInclude Include="..\Source\RapidXML\rapidxml.hpp" />
+    <ClInclude Include="..\Source\RapidXML\rapidxml_iterators.hpp" />
+    <ClInclude Include="..\Source\RapidXML\rapidxml_print.hpp" />
+    <ClInclude Include="..\Source\RapidXML\rapidxml_utils.hpp" />
+    <ClInclude Include="..\Source\RapidXML\xml_util.h" />
+    <ClInclude Include="..\Source\UI\HeaderBar.h" />
+    <ClInclude Include="..\Source\UI\UIButton.h" />
+    <ClInclude Include="..\Source\UI\UIDocument.h" />
+    <ClInclude Include="..\Source\UI\UIImage.h" />
+    <ClInclude Include="..\Source\UI\UIImageButton.h" />
+    <ClInclude Include="..\Source\UI\UIItem.h" />
+    <ClInclude Include="..\Source\UI\UIRectangle.h" />
+    <ClInclude Include="..\Source\UI\UIScreen.h" />
+    <ClInclude Include="..\Source\UI\UITextButton.h" />
+    <ClInclude Include="..\Source\UI\UITextLabel.h" />
+    <ClInclude Include="..\Source\Win32\D3D\D3D.h" />
+    <ClInclude Include="..\Source\Win32\D3D\WICTextureLoader.h" />
+    <ClInclude Include="..\Source\Win32\Keyboard.h" />
+    <ClInclude Include="..\Source\Win32\OpenGL\PngLoader.h" />
+    <ClInclude Include="..\Source\Win32\Timer.h" />
+    <ClInclude Include="..\Source\Win32\Win32.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\allColour.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\Data\Blob.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\Data\Cooper_Black_480.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\Data\debug.bitmapfont" />
+    <None Include="..\Data\definitionBody.bitmapfont" />
+    <None Include="..\Data\definitionHeader.bitmapfont" />
+    <None Include="..\Data\english.dictionary" />
+    <None Include="..\Data\PlayButton.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\Data\redball.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="..\Data\score.bitmapfont" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Cooper_Black_48.bitmapfont">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Main.fx">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Data\bottom.png" />
+    <Image Include="..\Data\debug0.png" />
+    <Image Include="..\Data\definitionBody0.png" />
+    <Image Include="..\Data\definitionHeader0.png" />
+    <Image Include="..\Data\down.png" />
+    <Image Include="..\Data\icon_close.png" />
+    <Image Include="..\Data\LeftArrow.png" />
+    <Image Include="..\Data\middle.png" />
+    <Image Include="..\Data\RedTest.png" />
+    <Image Include="..\Data\RightArrow.png" />
+    <Image Include="..\Data\score0.png" />
+    <Image Include="..\Data\top.png" />
+    <Image Include="..\Data\undo.png" />
+    <Image Include="..\Data\up.png" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals" />
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2B441CE1-0B9C-401C-92E4-E2CFA1DA7E37}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Win32Project</RootNamespace>
+    <ProjectName>Win32</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)Bin\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(SolutionName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)Bin\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(SolutionName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)Bin\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(SolutionName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)Bin\</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(SolutionName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\Base;$(ProjectDir)..\Source\Data;$(ProjectDir)..\Source\Dictionary;$(ProjectDir)..\Source\Fluid;$(ProjectDir)..\Source\Game;$(ProjectDir)..\Source\Gfx;$(ProjectDir)..\Source\RapidXML;$(ProjectDir)..\Source\UI;$(ProjectDir)..\Source\Win32;$(ProjectDir)..\Source;$(ProjectDir)..\Source\Win32\D3D;$(ProjectDir)..\Source\Box2D;$(ProjectDir)..\Source\Facebook</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4005</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;d3d11.lib;d3dx11d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>OPENGL;WIN32;_DEBUG;_WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\Base;$(ProjectDir)..\Source\Data;$(ProjectDir)..\Source\Dictionary;$(ProjectDir)..\Source\Fluid;$(ProjectDir)..\Source\Game;$(ProjectDir)..\Source\Gfx;$(ProjectDir)..\Source\RapidXML;$(ProjectDir)..\Source\UI;$(ProjectDir)..\Source\Win32;$(ProjectDir)..\Source;$(ProjectDir)..\Source\Win32\D3D;$(ProjectDir)..\Source\Box2D;$(ProjectDir)..\Source\Facebook</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4005</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\Base;$(ProjectDir)..\Source\Data;$(ProjectDir)..\Source\Dictionary;$(ProjectDir)..\Source\Fluid;$(ProjectDir)..\Source\Game;$(ProjectDir)..\Source\Gfx;$(ProjectDir)..\Source\RapidXML;$(ProjectDir)..\Source\UI;$(ProjectDir)..\Source\Win32;$(ProjectDir)..\Source;$(ProjectDir)..\Source\Win32\D3D;$(ProjectDir)..\Source\Box2D;$(ProjectDir)..\Source\Facebook</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4005</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;d3d11.lib;d3dx11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>OPENGL;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Source\Base;$(ProjectDir)..\Source\Data;$(ProjectDir)..\Source\Dictionary;$(ProjectDir)..\Source\Fluid;$(ProjectDir)..\Source\Game;$(ProjectDir)..\Source\Gfx;$(ProjectDir)..\Source\RapidXML;$(ProjectDir)..\Source\UI;$(ProjectDir)..\Source\Win32;$(ProjectDir)..\Source;$(ProjectDir)..\Source\Win32\D3D;$(ProjectDir)..\Source\Box2D;$(ProjectDir)..\Source\Facebook</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4005</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

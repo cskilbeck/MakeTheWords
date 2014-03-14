@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE BitmapFont>
+<BitmapFont PageCount="1" Height="26" InternalLeading="0" Baseline="18.92871">
+  <Graph>
+    <Nodes Count="2">
+      <LayerNode id="0" inputs="1" outputs="0" X="400" Y="200" Index="0">
+        <Parameter Name="Color" Type="Color" ARGB="FFFFFFFF" />
+        <Parameter Name="Offset" Type="RangedPointF" MinX="-50" MaxX="50" MinY="-50" MaxY="50" X="0" Y="0" />
+        <Parameter Name="Measure" Type="Boolean" value="False" />
+      </LayerNode>
+      <FontNode id="1" inputs="0" outputs="1" X="66" Y="66">
+        <Parameter Name="Render Type" Type="RenderType" value="2" />
+        <Parameter Name="Font" Type="TTFont" family="Arial Rounded MT" face="Bold" size="26" />
+        <Parameter Name="Options" Type="FontDescriptor" Outline="0" AntiAlias="1" Rounded="0" />
+      </FontNode>
+    </Nodes>
+    <Connections Count="1">
+      <Connection FromNode="1" FromSocket="0" ToNode="0" ToSocket="0" FromX="135" FromY="93" ToX="401" ToY="227" />
+    </Connections>
+  </Graph>
+  <Layers Count="1">
+    <Layer offsetX="0" offsetY="0" color="FFFFFFFF" />
+  </Layers>
+  <Glyphs Count="10">
+    <Glyph char="48" images="1" advance="15.4502">
+      <Graphic offsetX="1.21875" offsetY="0.1777344" x="47" y="1" w="13" h="20" page="0" />
+    </Glyph>
+    <Glyph char="49" images="1" advance="15.4502">
+      <Graphic offsetX="1.637695" offsetY="0.203125" x="61" y="1" w="10" h="20" page="0" />
+    </Glyph>
+    <Glyph char="50" images="1" advance="15.4502">
+      <Graphic offsetX="1.43457" offsetY="0.203125" x="102" y="1" w="13" h="19" page="0" />
+    </Glyph>
+    <Glyph char="51" images="1" advance="15.4502">
+      <Graphic offsetX="1.269531" offsetY="0.2285156" x="116" y="1" w="13" h="19" page="0" />
+    </Glyph>
+    <Glyph char="52" images="1" advance="15.4502">
+      <Graphic offsetX="0.3173828" offsetY="0.07617188" x="1" y="1" w="15" h="20" page="0" />
+    </Glyph>
+    <Glyph char="53" images="1" advance="15.4502">
+      <Graphic offsetX="1.383789" offsetY="0.4697266" x="72" y="1" w="14" h="19" page="0" />
+    </Glyph>
+    <Glyph char="54" images="1" advance="15.4502">
+      <Graphic offsetX="1.193359" offsetY="0.203125" x="17" y="1" w="14" h="20" page="0" />
+    </Glyph>
+    <Glyph char="55" images="1" advance="15.4502">
+      <Graphic offsetX="1.929688" offsetY="0.4951172" x="130" y="1" w="13" h="19" page="0" />
+    </Glyph>
+    <Glyph char="56" images="1" advance="15.4502">
+      <Graphic offsetX="1.117188" offsetY="0.1777344" x="32" y="1" w="14" h="20" page="0" />
+    </Glyph>
+    <Glyph char="57" images="1" advance="15.4502">
+      <Graphic offsetX="0.8378906" offsetY="0.203125" x="87" y="1" w="14" h="19" page="0" />
+    </Glyph>
+  </Glyphs>
+</BitmapFont>

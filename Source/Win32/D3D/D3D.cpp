@@ -1,0 +1,321 @@
+//////////////////////////////////////////////////////////////////////
+
+#include "pch.h"
+#include "Win32.h"
+#include "d3d.h"
+
+//////////////////////////////////////////////////////////////////////
+
+ID3D11Device *			gDevice;
+ID3D11DeviceContext *	gContext;
+
+//////////////////////////////////////////////////////////////////////
+
+struct Graphics::GraphicsImpl
+{
+	//////////////////////////////////////////////////////////////////////
+
+	GraphicsImpl()
+		: mDevice(null)
+		, mContext(null)
+		, mDriverType(D3D_DRIVER_TYPE_NULL)
+		, mFeatureLevel(D3D_FEATURE_LEVEL_9_1)
+		, mSwapChain(null)
+		, mHWND(null)
+		, mRenderTargetView(null)
+	{
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	void Release()
+	{
+		if(mContext != null)
+		{
+			mContext->Flush();
+			mContext->ClearState();
+		}
+
+		SafeRelease(mRenderTargetView);
+		SafeRelease(mContext);
+		SafeRelease(mSwapChain);
+		SafeRelease(mDevice);
+		mHWND = null;
+
+		gContext = null;
+		gDevice = null;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	bool Init(HWND hWnd)
+	{
+		this->mHWND = hWnd;
+
+		CoInitializeEx(null, 0);
+
+		RECT rc;
+		GetClientRect(hWnd, &rc);
+
+		UINT createDeviceFlags = 0;
+
+#ifdef _DEBUG
+		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+		D3D_DRIVER_TYPE driverTypes[] =
+		{
+			D3D_DRIVER_TYPE_HARDWARE
+			//D3D_DRIVER_TYPE_WARP,
+			//D3D_DRIVER_TYPE_REFERENCE
+		};
+
+		UINT numDriverTypes = ARRAYSIZE(driverTypes);
+
+		D3D_FEATURE_LEVEL featureLevels[] =
+		{
+			D3D_FEATURE_LEVEL_10_0
+			//D3D_FEATURE_LEVEL_9_1	// CRASHES!? In texture loader...
+			//D3D_FEATURE_LEVEL_11_0
+			//D3D_FEATURE_LEVEL_10_1
+		};
+		UINT numFeatureLevels = ARRAYSIZE(featureLevels);
+
+		DXGI_SWAP_CHAIN_DESC sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.BufferCount = 1;
+		sd.BufferDesc.Width = Screen::Width();
+		sd.BufferDesc.Height = Screen::Height();
+		sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		sd.BufferDesc.RefreshRate.Numerator = 60;
+		sd.BufferDesc.RefreshRate.Denominator = 1;
+		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		sd.OutputWindow = hWnd;
+		sd.SampleDesc.Count = 1;
+		sd.SampleDesc.Quality = 0;
+		sd.Windowed = TRUE;
+
+		HRESULT hr;
+
+		for(UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
+		{
+			mDriverType = driverTypes[driverTypeIndex];
+
+			hr = D3D11CreateDeviceAndSwapChain(NULL, mDriverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
+				D3D11_SDK_VERSION, &sd, &mSwapChain, &mDevice, &mFeatureLevel, &mContext);
+			if(SUCCEEDED(hr))
+			{
+				break;
+			}
+		}
+		if(FAILED(hr))
+		{
+			MessageBox(null, L"Failed to initialize D3D!\nExiting...", L"Fatal Error", MB_ICONEXCLAMATION);
+			Release();
+			exit(0);
+			return false;
+		}
+
+		gDevice = mDevice;
+		gContext = mContext;
+
+		GetBackBuffer();
+
+		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	void Resize(int width, int height)
+	{
+		if(mContext != null)
+		{
+			mContext->ClearState();
+		}
+
+		ReleaseBackBuffer();
+
+		DXGI_MODE_DESC d;
+		d.Width = width;
+		d.Height = height;
+		d.RefreshRate.Numerator = 60;
+		d.RefreshRate.Denominator = 1;
+		d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		d.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		d.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+		mSwapChain->ResizeTarget(&d);
+		mSwapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+
+		GetBackBuffer();
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	void ClearBackBuffer(Color color)
+	{
+		float r = color.GetRed() / 255.0f;
+		float g = color.GetGreen() / 255.0f;
+		float b = color.GetBlue() / 255.0f;
+		float a = 1.0f;
+		float ClearColor[4] = { r, g, b, a };
+		mContext->ClearRenderTargetView(mRenderTargetView, ClearColor);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	void ReleaseBackBuffer()
+	{
+		SafeRelease(mRenderTargetView);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	void GetBackBuffer()
+	{
+		// Create a render target view
+		ID3D11Texture2D* pBackBuffer = NULL;
+		if(FAILED(mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer)))
+		{
+			Release();
+			return;
+		}
+
+		HRESULT hr = mDevice->CreateRenderTargetView(pBackBuffer, NULL, &mRenderTargetView);
+		pBackBuffer->Release();
+		if(FAILED(hr))
+		{
+			Release();
+			return;
+		}
+
+		D3D11_VIEWPORT vp;
+		vp.Width = (FLOAT)Screen::Width();
+		vp.Height = (FLOAT)Screen::Height();
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		vp.TopLeftX = 0;
+		vp.TopLeftY = 0;
+
+		mContext->RSSetViewports(1, &vp);
+		mContext->OMSetRenderTargets(1, &mRenderTargetView, NULL);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
+	HWND						mHWND;
+	ID3D11Device *				mDevice;
+	ID3D11DeviceContext *		mContext;
+	ID3D11RenderTargetView *	mRenderTargetView;
+	D3D_DRIVER_TYPE				mDriverType;
+	D3D_FEATURE_LEVEL			mFeatureLevel;
+	IDXGISwapChain *			mSwapChain;
+
+};
+
+Graphics gGraphics;
+
+//////////////////////////////////////////////////////////////////////
+
+HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+{
+    HRESULT hr = S_OK;
+
+    DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+
+	#if defined(DEBUG) || defined(_DEBUG)
+		// Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
+		// Setting this flag improves the shader debugging experience, but still allows 
+		// the shaders to be optimized and to run exactly the way they will run in 
+		// the release configuration of this program.
+	    dwShaderFlags |= D3DCOMPILE_DEBUG;
+	#endif
+
+    ID3DBlob* pErrorBlob;
+
+	hr = D3DX11CompileFromFile(szFileName, NULL, NULL, szEntryPoint, szShaderModel, dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL);
+
+	if(FAILED(hr))
+    {
+        if(pErrorBlob != NULL)
+		{
+            OutputDebugStringA((char*)pErrorBlob->GetBufferPointer());
+		}
+        if(pErrorBlob)
+		{
+			pErrorBlob->Release();
+		}
+        return hr;
+    }
+    if(pErrorBlob)
+	{
+		pErrorBlob->Release();
+	}
+
+    return S_OK;
+}
+
+//////////////////////////////////////////////////////////////////////
+
+Graphics::Graphics()
+	: impl(new GraphicsImpl())
+{
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::Release()
+{
+	impl->Release();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+Graphics::~Graphics()
+{
+	Release();
+}
+
+//////////////////////////////////////////////////////////////////////
+
+bool Graphics::Init(HWND hWnd)
+{
+	impl->Release();
+	bool rc = impl->Init(hWnd);
+	return rc;
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::Resize(int width, int height)
+{
+	impl->Resize(width, height);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::ClearBackBuffer(Color color)
+{
+	impl->ClearBackBuffer(color);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::Present()
+{
+    impl->mSwapChain->Present(1, 0);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::SetScissorRectangle(Rect2D const &rect)
+{
+	assert(false);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+void Graphics::EnableScissoring(bool enable)
+{
+	assert(false);
+}
