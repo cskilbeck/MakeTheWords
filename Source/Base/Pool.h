@@ -10,24 +10,23 @@ struct PoolFake : list_node<PoolFake>
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> struct Pool
+template <typename T, size_t numItems = 0> struct Pool
 {
 	byte *mPool;
 	linked_list<PoolFake> mFreeList;
-
-	static_assert(sizeof(PoolFake) <= sizeof(T), "Can't make a Pool of object < 8 bytes big");
 
 	//////////////////////////////////////////////////////////////////////
 
 	Pool() : mPool(null)
 	{
+		Resize(numItems);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 
-	Pool(int numItems) : mPool(null)
+	Pool(int n) : mPool(null)
 	{
-		Resize(numItems);
+		Resize(n);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -47,13 +46,16 @@ template <typename T> struct Pool
 
 	//////////////////////////////////////////////////////////////////////
 
-	void Resize(int numItems)
+	void Resize(int n)
 	{
 		Clear();
-		mPool = new byte[numItems * sizeof(T)];
-		for(int i=0; i<numItems; ++i)
+		if(n > 0)
 		{
-			mFreeList.push_back(reinterpret_cast<PoolFake *>(mPool + i * sizeof(T)));
+			mPool = new byte[n * sizeof(T)];
+			for(int i=0; i<n; ++i)
+			{
+				mFreeList.push_back(reinterpret_cast<PoolFake *>(mPool + i * sizeof(T)));
+			}
 		}
 	}
 
@@ -61,6 +63,10 @@ template <typename T> struct Pool
 
 	T *Alloc()
 	{
+		if(mFreeList.empty())
+		{
+			return null;
+		}
 		return reinterpret_cast<T *>(mFreeList.pop_back());
 	}
 
@@ -69,6 +75,35 @@ template <typename T> struct Pool
 	void Free(T *o)
 	{
 		mFreeList.push_back(reinterpret_cast<PoolFake *>(o));
+	}
+};
+
+//////////////////////////////////////////////////////////////////////
+
+template <typename T, size_t N> struct Pooled
+{
+	typedef Pool<T, N> pool_t;
+
+	static pool_t &pool()
+	{
+		static pool_t sPool;
+		return sPool;
+	}
+
+	void *operator new(size_t s)
+	{
+		return (void *)pool().Alloc();
+	}
+
+	void operator delete(void *p, size_t s)
+	{
+		pool().Free((T *)p);
+	}
+
+private:
+
+	void operator delete[](void *p, size_t s)
+	{
 	}
 };
 

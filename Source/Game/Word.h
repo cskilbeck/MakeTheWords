@@ -9,10 +9,10 @@ namespace Game
 
 	//////////////////////////////////////////////////////////////////////
 
-	struct Word : list_node<Word>
-	{
-		static const int kMaxWords = 209;	// ha!
+	static const int kMaxWords = 209;	// ha!
 
+	struct Word : list_node<Word>, Pooled<Word, kMaxWords>	// huh, can't get this from inside the struct...
+	{
 		enum Orientation
 		{
 			horizontal = 0,
@@ -39,6 +39,8 @@ namespace Game
 				return mDictionaryWord > other.mDictionaryWord;
 			}
 		}
+
+		Word(int x, int y, Word::Orientation orientation, int score, int length, int dictionaryWord);
 
 		Point2D			mLocation;
 		int				mLength;

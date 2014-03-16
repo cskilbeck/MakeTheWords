@@ -80,7 +80,6 @@ namespace Game
 		
 		mTileSourceSize = Point2D(96, 96);
 		mBoardSize = Point2D(mTileSize.x * mWidth, mTileSize.y * mHeight);
-		mWordPool.Resize(Word::kMaxWords);
 		Reset();
 	}
 
@@ -198,18 +197,9 @@ namespace Game
 
 	void Board::ClearWordLists()
 	{
-		while(!mFoundWords.empty())
-		{
-			mWordPool.Free(mFoundWords.pop_back());
-		}
-		while(!mPreviousWords.empty())
-		{
-			mWordPool.Free(mPreviousWords.pop_back());
-		}
-		while(!mValidWords.empty())
-		{
-			mPreviousWords.push_back(mValidWords.pop_front());
-		}
+		chs::remove_and_delete_all(mFoundWords);
+		chs::remove_and_delete_all(mPreviousWords);
+		mPreviousWords = mValidWords;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -241,15 +231,9 @@ namespace Game
 					int w = mDictionary->WordIndex(checkString);
 					if(w != -1)
 					{
-						Word *word = mWordPool.Alloc();
+						Word *word = new Word(x, y, orientation, Reference::Letter::GetWordScore(checkString), e, w);
 						if(word != null)
 						{
-							word->mLocation.x = x;
-							word->mLocation.y = y;
-							word->mOrientation = orientation;
-							word->mScore = Reference::Letter::GetWordScore(checkString);
-							word->mLength = e;
-							word->mDictionaryWord = w;
 							mFoundWords.push_back(word);
 						}
 					}
@@ -271,49 +255,40 @@ namespace Game
 		MarkWordPass(Word::Orientation::horizontal, 1, mWidth, 1, 0);
 		MarkWordPass(Word::Orientation::vertical, mWidth, mHeight, 0, 1);
 
+		// sort them by score, length descending
 		mFoundWords.sort();
 
 		// delete overlapped words and set up tile flags
 		int totalScore = 0;
-
 		while(!mFoundWords.empty())
 		{
 			Word *w = mFoundWords.pop_front();
-			Word &word = *w;
-			bool valid = true;
-
-			for(int i=0; i<word.mLength; ++i)
+			int i=0;
+			for(i=0; i<w->mLength; ++i)
 			{
-				Tile &t = GetWordTile(&word, i);
-
-				if(t.mVerticalWord != null && word.mOrientation == Word::Orientation::vertical)
+				Tile &t = GetWordTile(w, i);
+				if(		t.mVerticalWord != null && w->mOrientation == Word::Orientation::vertical
+					||	t.mHorizontalWord != null && w->mOrientation == Word::Orientation::horizontal)
 				{
-					valid = false;
-					break;
-				}
-				if(t.mHorizontalWord != null && word.mOrientation == Word::Orientation::horizontal)
-				{
-					valid = false;
 					break;
 				}
 			}
-			if(valid)
+			if(i == w->mLength)
 			{
-				mValidWords.push_back(word);
-				word.mNew = chs::find_first_of(mPreviousWords, word) == mPreviousWords.end();
-				for (int i = 0; i < word.mLength; ++i)
+				mValidWords.push_back(w);
+				w->mNew = chs::find_first_of(mPreviousWords, *w) == mPreviousWords.end();
+				for (int i = 0; i < w->mLength; ++i)
 				{
-					Tile &t = GetWordTile(&word, i);
-					t.SetWord(&word, i);
+					Tile &t = GetWordTile(w, i);
+					t.SetWord(w, i);
 				}
-				totalScore += word.mScore;
+				totalScore += w->mScore;
 			}
 			else
 			{
-				mWordPool.Free(&word);
+				delete w;
 			}
 		}
-
 		return totalScore;
 	}
 

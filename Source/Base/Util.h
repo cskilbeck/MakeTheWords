@@ -125,11 +125,10 @@ template <typename T> int sgn(T val)	// where T is int, short, char etc. caveat 
 }
 
 //////////////////////////////////////////////////////////////////////
+
 template <typename T> void Swap(T &a, T &b)
 {
-	T t = a;
-	a = b;
-	b = t;
+	std::swap(a, b);
 }
 
 //////////////////////////////////////////////////////////////////////

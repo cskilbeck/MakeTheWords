@@ -28,7 +28,6 @@ namespace Game
 		SpriteList *		mSpriteList;
 		Dictionary *		mDictionary;
 
-		Pool<Word>			mWordPool;
 		linked_list<Word>	mFoundWords;
 		linked_list<Word>	mValidWords;
 		linked_list<Word>	mPreviousWords;
