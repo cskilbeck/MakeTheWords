@@ -30,17 +30,6 @@ Component::~Component()
 
 //////////////////////////////////////////////////////////////////////
 
-void Component::Reorder()
-{
-/*	sComponents.sort([&] (Component *&a, Component *&b)
-	{
-		return a->mZIndex < b->mZIndex;
-	});
-*/
-}
-
-//////////////////////////////////////////////////////////////////////
-
 void Component::UpdateAll()
 {
 	TouchInput::Pause(false);
@@ -55,12 +44,12 @@ void Component::UpdateAll()
 			}
 			else if(rc == kAllowNoInput)
 			{
-				// tell the touch system to report nothing until further notice
+				// tell the touch system to report nothing until further notice (it's modal)
 				TouchInput::Pause(true);
 			}
 		}
 	}
-	Reorder();
+	gComponents.sort();
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -18,6 +18,11 @@ struct Component : RefCount
 	virtual eComponentReturnCode Update() = 0; // return kBlock to halt further processing
 	virtual void Draw() = 0;
 
+	bool operator < (Component const &o)
+	{
+		return mZIndex < o.mZIndex;
+	}
+
 	//////////////////////////////////////////////////////////////////////
 
 	bool mActive;
@@ -34,7 +39,6 @@ struct Component : RefCount
 
 	//////////////////////////////////////////////////////////////////////
 
-	static void Reorder();		// can't call this during Update()
 	static void UpdateAll();
 	static void DrawAll();
 

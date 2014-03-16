@@ -103,7 +103,7 @@ namespace Game
 		mZIndex = 1;			// process and draw 'this' before the in-game UI
 		mParticles->mZIndex = 2;
 
-		Component::Reorder();
+		gComponents.sort();
 	}
 
 	//////////////////////////////////////////////////////////////////////
