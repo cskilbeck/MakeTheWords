@@ -24,6 +24,22 @@ namespace Game
 			return mLocation == other.mLocation && mDictionaryWord == other.mDictionaryWord;
 		}
 
+		bool operator < (Word const &other)
+		{
+			if(mScore != other.mScore)
+			{
+				return mScore > other.mScore;
+			}
+			else if(mLength != other.mLength)
+			{
+				return mLength > other.mLength;
+			}
+			else
+			{
+				return mDictionaryWord > other.mDictionaryWord;
+			}
+		}
+
 		Point2D			mLocation;
 		int				mLength;
 		Orientation		mOrientation;

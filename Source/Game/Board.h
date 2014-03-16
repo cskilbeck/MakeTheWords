@@ -21,14 +21,12 @@ namespace Game
 		float				mFontScale;
 
 		Tile *				mTiles;
-		Tile **				mSortedTiles;
+		linked_list<Tile>	mSortedTiles;
 		int					mNumTiles;
 		bool				mAtRest;
 
 		SpriteList *		mSpriteList;
 		Dictionary *		mDictionary;
-
-		vector<Word *>		mSortVector;
 
 		Pool<Word>			mWordPool;
 		linked_list<Word>	mFoundWords;

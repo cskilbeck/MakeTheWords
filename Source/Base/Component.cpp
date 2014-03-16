@@ -4,7 +4,7 @@
 
 //////////////////////////////////////////////////////////////////////
 
-list<Component *> Component::sComponents;
+linked_list<Component, &Component::mListNode> gComponents;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ Component::Component(SpriteList *spriteList)
 	, mClipEnabled(false)
 {
 	spriteList->AddRef();
-	sComponents.push_back(this);
+	gComponents.push_back(this);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -25,17 +25,18 @@ Component::Component(SpriteList *spriteList)
 Component::~Component()
 {
 	SafeRelease(mSpriteList);
-	sComponents.remove(this);
+	gComponents.remove(this);
 }
 
 //////////////////////////////////////////////////////////////////////
 
 void Component::Reorder()
 {
-	sComponents.sort([&] (Component *&a, Component *&b)
+/*	sComponents.sort([&] (Component *&a, Component *&b)
 	{
 		return a->mZIndex < b->mZIndex;
 	});
+*/
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -43,11 +44,11 @@ void Component::Reorder()
 void Component::UpdateAll()
 {
 	TouchInput::Pause(false);
-	for(auto c = sComponents.rbegin(); c != sComponents.rend(); ++c)
+	for(auto &c : chs::reverse(gComponents))
 	{
-		if((*c)->mActive)
+		if(c.mActive)
 		{
-			eComponentReturnCode rc = (*c)->Update();
+			eComponentReturnCode rc = c.Update();
 			if(rc == kBlock)
 			{
 				break;
@@ -66,12 +67,11 @@ void Component::UpdateAll()
 
 void Component::DrawAll()
 {
-	for(auto i = sComponents.begin(); i != sComponents.end(); ++i)
+	for(auto &c : gComponents)
 	{
-		Component *c = *i;
-		if(c->mVisible)
+		if(c.mVisible)
 		{
-			(*i)->Draw();
+			c.Draw();
 		}
 	}
 }

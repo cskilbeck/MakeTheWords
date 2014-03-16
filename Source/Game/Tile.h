@@ -13,7 +13,7 @@ namespace Game
 
 	//////////////////////////////////////////////////////////////////////
 
-	struct Tile
+	struct Tile : list_node<Tile>
 	{
 		enum WordPosition : uint8
 		{

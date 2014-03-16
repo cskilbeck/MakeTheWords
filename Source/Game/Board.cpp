@@ -11,14 +11,12 @@ namespace Game
 
 	Board::Board() : mTiles(null)
 	{
-		mSortVector.reserve(Word::kMaxWords);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 
 	Board::~Board()
 	{
-		SafeDeleteArray(mSortedTiles);
 		SafeDeleteArray(mTiles);
 		mNumTiles = 0;
 	}
@@ -71,7 +69,10 @@ namespace Game
 		mSize = Point2D(mWidth, mHeight);
 		mNumTiles = mWidth * mHeight;
 		mTiles = new Tile[mNumTiles];
-		mSortedTiles = new Tile *[mNumTiles];
+		for(int i=0; i<mNumTiles; ++i)
+		{
+			mSortedTiles.push_back(mTiles + i);
+		}
 
 		// Ho hum - decide this based on screen resolution
 		mTileSize = Point2D(60, 64);
@@ -270,67 +271,46 @@ namespace Game
 		MarkWordPass(Word::Orientation::horizontal, 1, mWidth, 1, 0);
 		MarkWordPass(Word::Orientation::vertical, mWidth, mHeight, 0, 1);
 
-		// sort them by score,length
-		mSortVector.resize(0);
-		for(auto &w: mFoundWords)
-		{
-			mSortVector.push_back(&w);
-		}
-
-		sort(mSortVector.begin(), mSortVector.end(), [] (Word *a, Word *b)
-		{
-			if(a->mScore != b->mScore)
-			{
-				return a->mScore > b->mScore;
-			}
-			else if(a->mLength != b->mLength)
-			{
-				return a->mLength > b->mLength;
-			}
-			else
-			{
-				return a->mDictionaryWord > b->mDictionaryWord;
-			}
-		});
+		mFoundWords.sort();
 
 		// delete overlapped words and set up tile flags
 		int totalScore = 0;
 
-		for(auto &word: mSortVector)
+		while(!mFoundWords.empty())
 		{
+			Word *w = mFoundWords.pop_front();
+			Word &word = *w;
 			bool valid = true;
 
-			for(int i=0; i<word->mLength; ++i)
+			for(int i=0; i<word.mLength; ++i)
 			{
-				Tile &t = GetWordTile(word, i);
+				Tile &t = GetWordTile(&word, i);
 
-				if(t.mVerticalWord != null && word->mOrientation == Word::Orientation::vertical)
+				if(t.mVerticalWord != null && word.mOrientation == Word::Orientation::vertical)
 				{
 					valid = false;
 					break;
 				}
-				if(t.mHorizontalWord != null && word->mOrientation == Word::Orientation::horizontal)
+				if(t.mHorizontalWord != null && word.mOrientation == Word::Orientation::horizontal)
 				{
 					valid = false;
 					break;
 				}
 			}
-			mFoundWords.remove(word);
-			if (valid)
+			if(valid)
 			{
 				mValidWords.push_back(word);
-				Word &w = *word;
-				word->mNew = chs::find_first_of(mPreviousWords, w) == mPreviousWords.end();
-				for (int i = 0; i < word->mLength; ++i)
+				word.mNew = chs::find_first_of(mPreviousWords, word) == mPreviousWords.end();
+				for (int i = 0; i < word.mLength; ++i)
 				{
-					Tile &t = GetWordTile(word, i);
-					t.SetWord(word, i);
+					Tile &t = GetWordTile(&word, i);
+					t.SetWord(&word, i);
 				}
-				totalScore += word->mScore;
+				totalScore += word.mScore;
 			}
 			else
 			{
-				mWordPool.Free(word);
+				mWordPool.Free(&word);
 			}
 		}
 
@@ -341,36 +321,26 @@ namespace Game
 
 	void Board::Draw()
 	{
-		for(int i=0; i<mNumTiles; ++i)
-		{
-			mSortedTiles[i] = &mTiles[i];
-		}
+		mSortedTiles.sort();
 
-		sort(mSortedTiles, mSortedTiles + mNumTiles, [&] (Tile *a, Tile *b)
+		Tile *runStart = mSortedTiles.head();
+		Tile *end = mSortedTiles.done();
+		int currentLayer = runStart->mLayer;
+		for(Tile *t = runStart; t != end; t = mSortedTiles.next(t))
 		{
-			return a->mLayer < b->mLayer;
-		});
-
-		auto it = mSortedTiles;
-		auto end = mSortedTiles + mNumTiles;
-		auto runStart = it;
-		int currentLayer = (*it)->mLayer;
-
-		for(; it != end; ++it)
-		{
-			if((*it)->mLayer != currentLayer)
+			if(t->mLayer != currentLayer)
 			{
-				currentLayer = (*it)->mLayer;
-				for(; runStart != it; ++runStart)
+				currentLayer = t->mLayer;
+				for(; runStart != t; runStart = mSortedTiles.next(runStart))
 				{
-					(*runStart)->DrawLetter(mTileSize, mFontScale);
+					runStart->DrawLetter(mTileSize, mFontScale);
 				}
 			}
-			(*it)->DrawTile(mTileSize, mTileSourceSize);
+			t->DrawTile(mTileSize, mTileSourceSize);
 		}
-		for(; runStart != it; ++runStart)
+		for(; runStart != end; runStart = mSortedTiles.next(runStart))
 		{
-			(*runStart)->DrawLetter(mTileSize, mFontScale);
+			runStart->DrawLetter(mTileSize, mFontScale);
 		}
 
 #if 0

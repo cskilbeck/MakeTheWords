@@ -25,6 +25,7 @@ struct Component : RefCount
 	int mZIndex;
 	Rect2D mClipRect;
 	bool mClipEnabled;
+	list_node<Component> mListNode;
 
 	//////////////////////////////////////////////////////////////////////
 
@@ -39,8 +40,6 @@ struct Component : RefCount
 
 	//////////////////////////////////////////////////////////////////////
 
-	static list<Component *> sComponents;
-
 	//////////////////////////////////////////////////////////////////////
 
 protected:
@@ -48,4 +47,6 @@ protected:
 	SpriteList *mSpriteList;
 
 };
+
+extern linked_list<Component, &Component::mListNode> gComponents;
 
