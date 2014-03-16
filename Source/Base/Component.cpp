@@ -4,7 +4,7 @@
 
 //////////////////////////////////////////////////////////////////////
 
-linked_list<Component, &Component::mListNode> gComponents;
+static linked_list<Component, &Component::mListNode> sComponents;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ Component::Component(SpriteList *spriteList)
 	, mClipEnabled(false)
 {
 	spriteList->AddRef();
-	gComponents.push_back(this);
+	sComponents.push_back(this);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ Component::Component(SpriteList *spriteList)
 Component::~Component()
 {
 	SafeRelease(mSpriteList);
-	gComponents.remove(this);
+	sComponents.remove(this);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ Component::~Component()
 void Component::UpdateAll()
 {
 	TouchInput::Pause(false);
-	for(auto &c : chs::reverse(gComponents))
+	for(auto &c : chs::reverse(sComponents))
 	{
 		if(c.mActive)
 		{
@@ -49,14 +49,14 @@ void Component::UpdateAll()
 			}
 		}
 	}
-	gComponents.sort();
+	sComponents.sort();
 }
 
 //////////////////////////////////////////////////////////////////////
 
 void Component::DrawAll()
 {
-	for(auto &c : gComponents)
+	for(auto &c : sComponents)
 	{
 		if(c.mVisible)
 		{

@@ -52,5 +52,3 @@ protected:
 
 };
 
-extern linked_list<Component, &Component::mListNode> gComponents;
-

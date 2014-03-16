@@ -13,6 +13,8 @@ namespace Game
 
 	struct Word : list_node<Word>, Pooled<Word, kMaxWords>	// huh, can't get this from inside the struct...
 	{
+		static pool_t pool;
+
 		enum Orientation
 		{
 			horizontal = 0,

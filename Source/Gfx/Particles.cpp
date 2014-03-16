@@ -4,41 +4,23 @@
 
 //////////////////////////////////////////////////////////////////////
 
-namespace
-{
-	Pool<Particle> sParticlePool(1024);
-	Pool<ParticleList> sParticleListPool(64);
-	Random sRandom;
-}
+Particle::pool_t Particle::pool;
+ParticleList::pool_t ParticleList::pool;
+static Random sRandom;
 
 //////////////////////////////////////////////////////////////////////
 
-void *Particle::operator new(size_t s)
-{
-	return sParticlePool.Alloc();
-}
-
-//////////////////////////////////////////////////////////////////////
-
-void Particle::operator delete(void *p)
-{
-	sParticlePool.Free((Particle *)p);
-}
-
-//////////////////////////////////////////////////////////////////////
-
-Particle::Particle(Vec2 const &origin, Vec2 const &velocity, float lifeTime, Color launchColor, Color decayColor)
+Particle::Particle(linked_list<Particle> &list, Vec2 const &origin, Vec2 const &velocity, float lifeTime, Color launchColor, Color decayColor)
 	: mOrigin(origin)
 	, mVelocity(velocity)
 	, mLifeTime(lifeTime)
 	, mLaunchColor(launchColor)
 	, mDecayColor(decayColor)
 {
+	list.push_back(this);
 }
 
 //////////////////////////////////////////////////////////////////////
-
-// change
 
 bool Particle::Calc(float time, Vec2 &pos, Color &color)
 {
@@ -49,32 +31,16 @@ bool Particle::Calc(float time, Vec2 &pos, Color &color)
 		color = mDecayColor.Lerp(mLaunchColor, (int)(timeScalar * 256));
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void *ParticleList::operator new(size_t s)
-{
-	return sParticleListPool.Alloc();
-}
-
-//////////////////////////////////////////////////////////////////////
-
-void ParticleList::operator delete(void *p)
-{
-	sParticleListPool.Free((ParticleList *)p);
-}
-
-//////////////////////////////////////////////////////////////////////
-
-ParticleList::ParticleList(Vec2 const &origin, Texture *texture, int numParticles /* bunch of ranges */)
+ParticleList::ParticleList(linked_list<ParticleList> &list, Vec2 const &origin, Texture *texture, int numParticles /* bunch of ranges */)
 	: mTexture(texture)
 	, mLaunchTime(g_Time)
 {
+	list.push_back(this);
 	float maxAge = 0;
 	for(int i=0; i<numParticles; ++i)
 	{
@@ -84,21 +50,18 @@ ParticleList::ParticleList(Vec2 const &origin, Texture *texture, int numParticle
 		float xv = sinf(a) * v;
 		float yv = cosf(a) * v;
 		maxAge = Max(l, maxAge);
-		Particle *p = new Particle(origin, Vec2(xv, yv), l, Color::White, 0x0000ffff);
-		if(p != null)
-		{
-			mParticles.push_back(p);
-		}
+		new Particle(mParticles, origin, Vec2(xv, yv), l, Color::White, 0x0000ffff);
 	}
 	mDeathTime = mLaunchTime + maxAge;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-ParticleList::ParticleList(Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, Texture *texture, int numParticles)
+ParticleList::ParticleList(linked_list<ParticleList> &list, Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, Texture *texture, int numParticles)
 	: mTexture(texture)
 	, mLaunchTime(g_Time)
 {
+	list.push_back(this);
 	float maxAge = 0;
 	Vec2 d(end-start);
 	float arc = arcEnd - arcBegin;
@@ -109,11 +72,7 @@ ParticleList::ParticleList(Vec2 const &start, Vec2 const &end, float arcBegin, f
 		float v = sRandom.NextFloat() * 20.0f + 100.0f;
 		float l = sRandom.NextFloat() * 0.2f + 0.2f;
 		maxAge = Max(l, maxAge);
-		Particle *p = new Particle(d * f + start, Vec2(sinf(a) * v, cosf(a) * v), l, Color::White, 0x00ffffff);
-		if(p != null)
-		{
-			mParticles.push_back(p);
-		}
+		new Particle(mParticles, d * f + start, Vec2(sinf(a) * v, cosf(a) * v), l, Color::White, 0x00ffffff);
 	}
 	mDeathTime = mLaunchTime + maxAge;
 }
@@ -182,22 +141,14 @@ Particles::~Particles()
 
 void Particles::Launch(Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, int numParticles)
 {
-	ParticleList *p = new ParticleList(start, end, arcBegin, arcEnd, mBlingTexture, numParticles);
-	if(p != null)
-	{
-		mParticleLists.push_back(p);
-	}
+	new ParticleList(mParticleLists, start, end, arcBegin, arcEnd, mBlingTexture, numParticles);
 }
 
 //////////////////////////////////////////////////////////////////////
 
 void Particles::Launch(Vec2 const &origin, int numParticles)
 {
-	ParticleList *p = new ParticleList(origin, mBlingTexture, numParticles);
-	if(p != null)
-	{
-		mParticleLists.push_back(p);
-	}
+	new ParticleList(mParticleLists, origin, mBlingTexture, numParticles);
 }
 
 //////////////////////////////////////////////////////////////////////

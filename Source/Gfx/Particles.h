@@ -4,39 +4,34 @@
 
 //////////////////////////////////////////////////////////////////////
 
-struct Particle : list_node<Particle>
+struct Particle : list_node<Particle>, Pooled<Particle, 1024>
 {
-	Vec2			mOrigin;
-	Vec2			mVelocity;
-	Color			mLaunchColor;
-	Color			mDecayColor;
-	float			mLifeTime;
+	static pool_t			pool;
 
-	void *operator new(size_t s);
-	void operator delete(void *p);
+	Vec2					mOrigin;
+	Vec2					mVelocity;
+	Color					mLaunchColor;
+	Color					mDecayColor;
+	float					mLifeTime;
 
-	Particle(Vec2 const &origin, Vec2 const &velocity, float lifeTime, Color launchColor, Color decayColor);
+	Particle(linked_list<Particle> &list, Vec2 const &origin, Vec2 const &velocity, float lifeTime, Color launchColor, Color decayColor);
 	bool Calc(float time, Vec2 &pos, Color &color);
 };
 
 //////////////////////////////////////////////////////////////////////
 
-struct ParticleList : list_node<ParticleList>
+struct ParticleList : list_node<ParticleList>, Pooled<ParticleList, 64>
 {
+	static pool_t			pool;
+
 	Texture *				mTexture;
 	linked_list<Particle>	mParticles;
 	double					mLaunchTime;
 	double					mDeathTime;
 
-	void *operator new(size_t s);
-	void operator delete(void *p);
-
-	ParticleList(Vec2 const &origin, Texture *texture, int numParticles);
-
-	ParticleList(Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, Texture *texture, int numParticles);
-
+	ParticleList(linked_list<ParticleList> &list, Vec2 const &origin, Texture *texture, int numParticles);
+	ParticleList(linked_list<ParticleList> &list, Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, Texture *texture, int numParticles);
 	~ParticleList();
-
 	void Draw(SpriteList *spriteList);
 };
 
@@ -49,10 +44,8 @@ struct Particles : Component
 
 	Particles(SpriteList *spriteList);
 	~Particles();
-
 	eComponentReturnCode Update();
 	void Draw();
-
 	void Launch(Vec2 const &origin, int numParticles);
 	void Launch(Vec2 const &start, Vec2 const &end, float arcBegin, float arcEnd, int numParticles);
 	void LaunchHorizontal(Vec2 const &start, float len);

@@ -84,20 +84,14 @@ template <typename T, size_t N> struct Pooled
 {
 	typedef Pool<T, N> pool_t;
 
-	static pool_t &pool()
-	{
-		static pool_t sPool;
-		return sPool;
-	}
-
 	void *operator new(size_t s)
 	{
-		return (void *)pool().Alloc();
+		return (void *)T::pool.Alloc();
 	}
 
 	void operator delete(void *p, size_t s)
 	{
-		pool().Free((T *)p);
+		T::pool.Free((T *)p);
 	}
 
 private:

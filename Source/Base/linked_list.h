@@ -583,11 +583,11 @@ namespace chs
 
     template<class L> void remove_and_delete_all(L &l)
     {
-        while(!l.empty())
-        {
-            auto i = l.pop_back();
-            delete &(*i);
-        }
+		while(!l.empty())
+		{
+			auto p = l.pop_front();
+			delete p;
+		}
     }
 
     //////////////////////////////////////////////////////////////////////

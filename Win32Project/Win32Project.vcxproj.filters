@@ -495,9 +495,6 @@
     <ClInclude Include="..\Source\Base\Component.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Base\LinkedList.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Base\pch.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
