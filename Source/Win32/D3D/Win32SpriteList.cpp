@@ -373,27 +373,21 @@ HRESULT SpriteList::SpriteListImpl::Open()
 	if(spVertexShader == null)
 	{
 		HRESULT hr;
-		ID3DBlob *pVSBlob = NULL;
 
-		hr = CompileShaderFromFile(L"Main.fx", "SpriteVertexShader", "vs_4_0_level_9_1", &pVSBlob);
-		if(FAILED(hr))
+		size_t size;
+		uint8 *buffer = LoadFile("VertexShader.cso", &size);
+		if(buffer == null)
 		{
 			assert(false);
 			Close();
-			return hr;
+			return ERROR_FILE_NOT_FOUND;
 		}
-
-		size_t size = pVSBlob->GetBufferSize();
-		void *buffer = pVSBlob->GetBufferPointer();
-
-		//size_t size1;
-		//void *buffer1 = LoadFile(L"svs.bin", &size1);
 
 		hr = gDevice->CreateVertexShader(buffer, size, NULL, &spVertexShader);
 
 		if(FAILED(hr))
 		{	
-			pVSBlob->Release();
+			SafeDeleteArray(buffer);
 			assert(false);
 			Close();
 			return hr;
@@ -407,8 +401,8 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		};
 		UINT numElements = ARRAYSIZE(layout);
 
-		hr = gDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &spVertexLayout);
-		pVSBlob->Release();
+		hr = gDevice->CreateInputLayout(layout, numElements, buffer, size, &spVertexLayout);
+		SafeDeleteArray(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -419,17 +413,17 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 	if(spPixelShader == null)
 	{
-		ID3DBlob *pPSBlob = NULL;
-		HRESULT hr = CompileShaderFromFile(L"Main.fx", "SpritePixelShader", "ps_4_0_level_9_1", &pPSBlob);
-		if(FAILED(hr))
+		size_t size;
+		uint8 *buffer = LoadFile("PixelShader.cso", &size);
+		if(buffer == null)
 		{
 			assert(false);
 			Close();
-			return hr;
+			return ERROR_FILE_NOT_FOUND;
 		}
 
-		hr = gDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &spPixelShader);
-		pPSBlob->Release();
+		HRESULT hr = gDevice->CreatePixelShader(buffer, size, NULL, &spPixelShader);
+		SafeDeleteArray(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);

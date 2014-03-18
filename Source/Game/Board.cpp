@@ -197,8 +197,8 @@ namespace Game
 
 	void Board::ClearWordLists()
 	{
-		chs::remove_and_delete_all(mFoundWords);
-		chs::remove_and_delete_all(mPreviousWords);
+		mFoundWords.delete_all();
+		mPreviousWords.delete_all();
 		mPreviousWords = mValidWords;
 	}
 
@@ -276,7 +276,7 @@ namespace Game
 			if(i == w->mLength)
 			{
 				mValidWords.push_back(w);
-				w->mNew = chs::find_first_of(mPreviousWords, *w) == mPreviousWords.end();
+				w->mNew = mPreviousWords.find_first_of(*w) == mPreviousWords.end();
 				for (int i = 0; i < w->mLength; ++i)
 				{
 					Tile &t = GetWordTile(w, i);

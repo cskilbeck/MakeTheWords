@@ -171,3 +171,22 @@ inline int NextPowerOf2(int v)
 	v++;
 	return v;
 }
+
+//////////////////////////////////////////////////////////////////////
+
+template<class T> struct in_reverse
+{
+    T &l;
+    in_reverse(T &list) : l(list) {}
+
+    auto begin() ->         decltype(l.rbegin())   { return l.rbegin(); } 
+    auto begin() const ->   decltype(l.crbegin())  { return l.crbegin(); } 
+    auto end() ->           decltype(l.rend())     { return l.rend(); } 
+    auto end() const ->     decltype(l.crend())    { return l.crend(); } 
+};
+
+template<class T> in_reverse<T> reverse(T &l)
+{
+    return in_reverse<T>(l);
+}
+

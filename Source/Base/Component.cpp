@@ -33,7 +33,7 @@ Component::~Component()
 void Component::UpdateAll()
 {
 	TouchInput::Pause(false);
-	for(auto &c : chs::reverse(sComponents))
+	for(auto &c : reverse(sComponents))
 	{
 		if(c.mActive)
 		{

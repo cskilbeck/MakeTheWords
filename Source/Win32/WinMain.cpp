@@ -12,6 +12,18 @@ bool gDebuggerAttached;
 
 //////////////////////////////////////////////////////////////////////
 
+void ShowCurrentFolder()
+{
+	WCHAR buffer[16384];
+	buffer[0] = 0;
+	GetCurrentDirectory(ARRAYSIZE(buffer), buffer);
+	OutputDebugString(L"Current folder:");
+	OutputDebugString(buffer);
+	OutputDebugString(L"\n");
+}
+
+//////////////////////////////////////////////////////////////////////
+
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
 	gDebuggerAttached = IsDebuggerPresent() == TRUE;
@@ -22,7 +34,10 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 
 	sTimer.Reset();
 
-	CD(L"..\\..\\data");
+	CD(L"..\\data");
+
+	ShowCurrentFolder();
+
 	Screen::Init(480, 320);
 
 	g_DebugSpriteList = SpriteList::Create();
