@@ -80,6 +80,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{6d39c831-b775-4067-bf19-599e33888121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{c0f70a7f-77e5-4e73-b73f-6bc9c1aac8fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\MainUI.cpp">
@@ -795,5 +798,13 @@
     <Image Include="..\Data\bottom.png">
       <Filter>Data</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Source\Win32\D3D\PixelShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Source\Win32\D3D\VertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
