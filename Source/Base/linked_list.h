@@ -570,24 +570,47 @@ namespace chs
         {
             if(size > 1)
             {
-                list_t left(list);
+                list_t left;
                 list_t right;
+				T *ot = list.tail();
+                T *oh = list.head();
+                T *rt = left.root();
+                get_node(ot).next = rt;
+                get_node(oh).prev = rt;
+                get_node(rt).next = oh;
+                get_node(rt).prev = ot;
                 size_t left_size = size / 2;
                 size_t right_size = size - left_size;
                 ptr m = left.head();
+				ptr prev_obj;
                 for(size_t s = 0; s < left_size; ++s)
                 {
+					prev_obj = m;
                     m = left.next(m);
                 }
-                left.split(m, right);
+                T *new_root = right.root();
+                T *old_tail = left.tail();
+                T *next_obj = left.next(m);
+				get_node(old_tail).prev = new_root;
+                get_node(old_tail).next = new_root;
+				get_node(rt).prev = prev_obj;
+				get_node(prev_obj).next = rt;
+                right.get_node(new_root).next = m;
+                right.get_node(new_root).prev = old_tail;
                 merge_sort(left, left_size);
                 merge_sort(right, right_size);
                 merge(left, right);
-                list = right;
-            }
+				ot = right.tail();
+                oh = right.head();
+                rt = list.root();
+                get_node(ot).next = rt;
+                get_node(oh).prev = rt;
+                get_node(rt).next = oh;
+                get_node(rt).prev = ot;
+			}
         }
 
-        //////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////
 
         void sort()
         {
