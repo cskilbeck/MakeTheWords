@@ -40,7 +40,7 @@ template <typename T, size_t numItems = 0> struct Pool
 
 	void Clear()
 	{
-		SafeDeleteArray(mPool);
+		Delete(mPool);
 		mFreeList.clear();
 	}
 

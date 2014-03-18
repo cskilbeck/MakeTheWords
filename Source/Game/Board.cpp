@@ -17,7 +17,7 @@ namespace Game
 
 	Board::~Board()
 	{
-		SafeDeleteArray(mTiles);
+		Delete(mTiles);
 		mNumTiles = 0;
 	}
 
@@ -69,6 +69,7 @@ namespace Game
 		mSize = Point2D(mWidth, mHeight);
 		mNumTiles = mWidth * mHeight;
 		mTiles = new Tile[mNumTiles];
+		mSortedTiles.clear();
 		for(int i=0; i<mNumTiles; ++i)
 		{
 			mSortedTiles.push_back(mTiles + i);
@@ -106,7 +107,7 @@ namespace Game
 		}
 
 		std::swap(mWidth, mHeight);
-		SafeDeleteArray(mTiles);
+		Delete(mTiles);
 		mTiles = newTiles;
 		ResetTilePositions();
 		MarkAllWords();
@@ -242,6 +243,8 @@ namespace Game
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////
+
 	int Board::MarkAllWords()
 	{
 		ClearWordLists();
@@ -298,22 +301,22 @@ namespace Game
 	{
 		mSortedTiles.sort();
 
-		Tile *runStart = mSortedTiles.head();
-		Tile *end = mSortedTiles.done();
+		auto runStart = mSortedTiles.begin();
+		auto end = mSortedTiles.end();
 		int currentLayer = runStart->mLayer;
-		for(Tile *t = runStart; t != end; t = mSortedTiles.next(t))
+		for(auto t = runStart; t != end; ++t)
 		{
 			if(t->mLayer != currentLayer)
 			{
 				currentLayer = t->mLayer;
-				for(; runStart != t; runStart = mSortedTiles.next(runStart))
+				for(; runStart != t; ++runStart)
 				{
 					runStart->DrawLetter(mTileSize, mFontScale);
 				}
 			}
 			t->DrawTile(mTileSize, mTileSourceSize);
 		}
-		for(; runStart != end; runStart = mSortedTiles.next(runStart))
+		for(; runStart != end; ++runStart)
 		{
 			runStart->DrawLetter(mTileSize, mFontScale);
 		}

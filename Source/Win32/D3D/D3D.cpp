@@ -36,10 +36,10 @@ struct Graphics::GraphicsImpl
 			mContext->ClearState();
 		}
 
-		SafeRelease(mRenderTargetView);
-		SafeRelease(mContext);
-		SafeRelease(mSwapChain);
-		SafeRelease(mDevice);
+		::Release(mRenderTargetView);
+		::Release(mContext);
+		::Release(mSwapChain);
+		::Release(mDevice);
 		mHWND = null;
 
 		gContext = null;
@@ -166,7 +166,7 @@ struct Graphics::GraphicsImpl
 
 	void ReleaseBackBuffer()
 	{
-		SafeRelease(mRenderTargetView);
+		::Release(mRenderTargetView);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -214,14 +214,6 @@ struct Graphics::GraphicsImpl
 };
 
 Graphics gGraphics;
-
-//////////////////////////////////////////////////////////////////////
-
-HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
-{
-	return ERROR_NOT_SUPPORTED;
-
-}
 
 //////////////////////////////////////////////////////////////////////
 

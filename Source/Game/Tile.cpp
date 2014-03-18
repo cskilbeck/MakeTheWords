@@ -28,8 +28,8 @@ namespace Game
 
 	void Tile::Close()
 	{
-		SafeRelease(sTileTexture);
-		SafeRelease(sTileFont);
+		Release(sTileTexture);
+		Release(sTileFont);
 	}
 
 	//////////////////////////////////////////////////////////////////////

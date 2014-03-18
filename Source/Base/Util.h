@@ -64,7 +64,7 @@ template <typename T> inline int64 asciiToInt64(T const *p)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeDeleteArray(T * &arr)
+template <typename T> void Delete(T (&arr)[])
 {
 	if(arr != null)
 	{
@@ -75,7 +75,7 @@ template <typename T> void SafeDeleteArray(T * &arr)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeDelete(T * &arr)
+template <typename T> void Delete(T * &arr)
 {
 	if(arr != null)
 	{
@@ -86,7 +86,7 @@ template <typename T> void SafeDelete(T * &arr)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeRelease(T * &ptr)
+template <typename T> void Release(T * &ptr)
 {
 	if(ptr != null)
 	{

@@ -25,11 +25,11 @@ void DefinitionScreen::Open()
 
 void DefinitionScreen::Close()
 {
-	SafeRelease(sLeftArrowButtonTexture);
-	SafeRelease(sRightArrowButtonTexture);
-	SafeRelease(sCloseButtonTexture);
-	SafeRelease(sHeaderFont);
-	SafeRelease(sBodyFont);
+	::Release(sLeftArrowButtonTexture);
+	::Release(sRightArrowButtonTexture);
+	::Release(sCloseButtonTexture);
+	::Release(sHeaderFont);
+	::Release(sBodyFont);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -223,8 +223,8 @@ DefinitionScreen::~DefinitionScreen()
 	RemoveUIItem(mLeftButton);
 	RemoveUIItem(mRightButton);
 	RemoveUIItem(mDocument);
-	SafeDelete(mCloseButton);
-	SafeDelete(mLeftButton);
-	SafeDelete(mRightButton);
-	SafeDelete(mDocument);
+	Delete(mCloseButton);
+	Delete(mLeftButton);
+	Delete(mRightButton);
+	Delete(mDocument);
 }

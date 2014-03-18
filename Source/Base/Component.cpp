@@ -24,7 +24,7 @@ Component::Component(SpriteList *spriteList)
 
 Component::~Component()
 {
-	SafeRelease(mSpriteList);
+	::Release(mSpriteList);
 	sComponents.remove(this);
 }
 

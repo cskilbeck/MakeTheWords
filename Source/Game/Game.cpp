@@ -137,13 +137,13 @@ namespace Game
 	Game::~Game()
 	{
 		URLLoader::TerminateAll();
-		SafeRelease(mParticles);
-		SafeDelete(mInGameUI);
-		SafeRelease(mScoreFont);
-		SafeRelease(mTextFont);
-		SafeDelete(mDefinitionScreen);
-		SafeDeleteArray(mUndoStack);
-		SafeDeleteArray(mUndoTiles);
+		::Release(mParticles);
+		Delete(mInGameUI);
+		::Release(mScoreFont);
+		::Release(mTextFont);
+		Delete(mDefinitionScreen);
+		Delete(mUndoStack);
+		Delete(mUndoTiles);
 		Tile::Close();
 	}
 

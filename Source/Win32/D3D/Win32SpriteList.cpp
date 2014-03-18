@@ -353,17 +353,16 @@ SpriteList::SpriteListImpl::~SpriteListImpl()
 	mCurrentIndex = 0;
 	mCurrentVertBufferIndex = 0;
 
-	SafeDeleteArray(mSpriteRuns);
-	SafeDeleteArray(mSpriteVerts0);
-	SafeDeleteArray(mSpriteVerts1);
+	Delete(mSpriteRuns);
+	Delete(mSpriteVerts0);
+	Delete(mSpriteVerts1);
 
-	SafeRelease(mVertexBuffer[0]);
-	SafeRelease(mVertexBuffer[1]);
-
-	SafeRelease(mCBProjection);
-	SafeRelease(mRasterizerState);
-	SafeRelease(mBlendState);
-	SafeRelease(mSamplerLinear);
+	::Release(mVertexBuffer[0]);
+	::Release(mVertexBuffer[1]);
+	::Release(mCBProjection);
+	::Release(mRasterizerState);
+	::Release(mBlendState);
+	::Release(mSamplerLinear);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -387,7 +386,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 		if(FAILED(hr))
 		{	
-			SafeDeleteArray(buffer);
+			Delete(buffer);
 			assert(false);
 			Close();
 			return hr;
@@ -402,7 +401,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		UINT numElements = ARRAYSIZE(layout);
 
 		hr = gDevice->CreateInputLayout(layout, numElements, buffer, size, &spVertexLayout);
-		SafeDeleteArray(buffer);
+		Delete(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -423,7 +422,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		}
 
 		HRESULT hr = gDevice->CreatePixelShader(buffer, size, NULL, &spPixelShader);
-		SafeDeleteArray(buffer);
+		Delete(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -439,10 +438,10 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 void SpriteList::SpriteListImpl::Close()
 {
-	SafeRelease(sWhiteTexture);
-	SafeRelease(spVertexLayout);
-	SafeRelease(spVertexShader);
-	SafeRelease(spPixelShader);
+	::Release(sWhiteTexture);
+	::Release(spVertexLayout);
+	::Release(spVertexShader);
+	::Release(spPixelShader);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -694,7 +693,7 @@ bool SpriteList::Init(int maxSprites, int maxRuns)
 
 SpriteList::~SpriteList()
 {
-	SafeDelete(impl);
+	Delete(impl);
 
 	SpriteListImpl::sAllSpriteLists.remove(this);
 	if(SpriteListImpl::sAllSpriteLists.empty())

@@ -68,8 +68,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 
 	g_App->Release();
 
-	SafeRelease(g_DebugSpriteList);
-	SafeRelease(g_DebugFont);
+	Release(g_DebugSpriteList);
+	Release(g_DebugFont);
 
 	return 0;
 }

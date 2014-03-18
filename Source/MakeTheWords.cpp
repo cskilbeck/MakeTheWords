@@ -53,9 +53,9 @@ void MakeTheWords::Init()
 
 void MakeTheWords::Release()
 {
-	SafeRelease(mDictionary);
-	SafeRelease(mSpriteList);
-	SafeDelete(mMainUI);
+	::Release(mDictionary);
+	::Release(mSpriteList);
+	Delete(mMainUI);
 	Reference::Letter::Close();
 	DefinitionScreen::Close();
 }

@@ -31,7 +31,7 @@ struct HeaderBar : UI::Screen
 			UI::TextButton *t = mScreens.begin()->first;
 			mScreens.erase(t);
 			RemoveUIItem(t);
-			SafeDelete(t);
+			Delete(t);
 		}
 	}
 

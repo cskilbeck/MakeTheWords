@@ -206,11 +206,11 @@ Component::eComponentReturnCode MainUI::Update()
 		if(mFBProfileButton != null)
 		{
 			RemoveUIItem(mFBProfileButton);
-			SafeDelete(mFBProfileButton);
+			Delete(mFBProfileButton);
 		}
 		if(mFBProfileTexture != null)
 		{
-			SafeRelease(mFBProfileTexture);
+			::Release(mFBProfileTexture);
 		}
 	}
 	mPlayButton->mEnabled = mGameID != 0 && mBoardID != -1 && mStartTime != 0 && mStartTime <= mNetworkTime && mNetworkTime < mEndTime;
@@ -261,20 +261,20 @@ MainUI::~MainUI()
 	if(mFBProfileButton != null)
 	{
 		RemoveUIItem(mFBProfileButton);
-		SafeDelete(mFBProfileButton);
+		Delete(mFBProfileButton);
 	}
 	RemoveUIItem(mPracticeButton);
 	RemoveUIItem(mPlayButton);
 	RemoveUIItem(mLoginButton);
 	RemoveUIItem(mPostButton);
-	SafeDelete(mPracticeButton);
-	SafeDelete(mPlayButton);
-	SafeDelete(mLoginButton);
-	SafeDelete(mPostButton);
-	SafeRelease(mFBProfileTexture);
-	SafeRelease(mPlayButtonTexture);
-	SafeDelete(mGame);
-	SafeDelete(mResultsUI);
-	SafeRelease(mLabelFont);
+	Delete(mPracticeButton);
+	Delete(mPlayButton);
+	Delete(mLoginButton);
+	Delete(mPostButton);
+	::Release(mFBProfileTexture);
+	::Release(mPlayButtonTexture);
+	Delete(mGame);
+	Delete(mResultsUI);
+	::Release(mLabelFont);
 }
 

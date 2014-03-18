@@ -163,7 +163,7 @@ struct URLLoader::Impl : list_node<URLLoader::Impl>
 					WinHttpReadData(handle, (void *)(mData.c_str() + offset), contentLength, &mBytesReceived);
 				}
 
-				SafeDeleteArray(lpOutBuffer);
+				Delete(lpOutBuffer);
 			}
 			break;
 
@@ -346,7 +346,7 @@ URLLoader::URLLoader()
 
 URLLoader::~URLLoader()
 {
-	SafeDelete(impl);
+	Delete(impl);
 }
 
 //////////////////////////////////////////////////////////////////////

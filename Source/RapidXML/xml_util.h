@@ -76,7 +76,7 @@ namespace
 			{
 				assert(false);
 			}
-			SafeDeleteArray(bytes);
+			Delete(bytes);
 		}
 		return rc;
 	}
@@ -95,7 +95,7 @@ namespace
 			}
 			catch(parse_error e)
 			{
-				SafeDelete(doc);
+				Delete(doc);
 			}
 		}
 		return doc;

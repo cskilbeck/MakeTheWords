@@ -57,7 +57,7 @@ struct Texture::TextureImpl
 		CD3D11_TEXTURE2D_DESC desc(DXGI_FORMAT_R8G8B8A8_UNORM, width, height, 1, 1);
 		HRESULT hr = gDevice->CreateTexture2D(&desc, data, &mTexture2D);
 
-		SafeDeleteArray(pPixels);
+		Delete(pPixels);
 
 		if(!FAILED(hr))
 		{
@@ -70,15 +70,15 @@ struct Texture::TextureImpl
 
 			if(FAILED(hr))
 			{
-				SafeRelease(mTexture2D);
+				::Release(mTexture2D);
 			}
 		}
 	}
 
 	~TextureImpl()
 	{
-		SafeRelease(mShaderResourceView);
-		SafeRelease(mTexture2D);
+		::Release(mShaderResourceView);
+		::Release(mTexture2D);
 	}
 
 	ID3D11Texture2D	*			mTexture2D;
@@ -119,7 +119,7 @@ Texture::~Texture()
 	TRACE("Delete Texture %s\n", mName.c_str());
 	mName.clear();
 	sAllTextures.remove(this);
-	SafeDelete(impl);
+	Delete(impl);
 }
 
 //////////////////////////////////////////////////////////////////////

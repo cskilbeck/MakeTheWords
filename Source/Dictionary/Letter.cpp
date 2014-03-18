@@ -70,7 +70,7 @@ namespace Reference
 
 	void Letter::Close()
 	{
-		SafeDeleteArray(distribution);
+		Delete(distribution);
 	}
 
 	//////////////////////////////////////////////////////////////////////

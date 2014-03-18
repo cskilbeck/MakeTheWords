@@ -134,7 +134,7 @@ Particles::Particles(SpriteList *spriteList)
 
 Particles::~Particles()
 {
-	SafeRelease(mBlingTexture);
+	::Release(mBlingTexture);
 }
 
 //////////////////////////////////////////////////////////////////////

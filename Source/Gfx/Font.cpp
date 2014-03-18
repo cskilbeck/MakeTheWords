@@ -72,13 +72,13 @@ Font::~Font()
 	sAllFonts.remove(this);
 	for(int i=0; i<mPageCount; ++i)
 	{
-		SafeRelease(mPages[i]);
+		::Release(mPages[i]);
 	}
-	SafeDeleteArray(mPages);
-	SafeDeleteArray(mGlyphs);
-	SafeDeleteArray(mLayers);
-	SafeDeleteArray(mKerningValues);
-	SafeDeleteArray(mGraphics);
+	Delete(mPages);
+	Delete(mGlyphs);
+	Delete(mLayers);
+	Delete(mKerningValues);
+	Delete(mGraphics);
 }
 
 //////////////////////////////////////////////////////////////////////
