@@ -435,10 +435,10 @@ namespace Game
 		Vec2 d = Vec2((Touch(0).mPosition - mPick) * 2);
 
 		return	(d.x < -mBoard.mTileSize.x)	?	Direction::kLeft :
-			(d.x >  mBoard.mTileSize.x)	?	Direction::kRight :
-			(d.y < -mBoard.mTileSize.y)	?	Direction::kUp :
-			(d.y >  mBoard.mTileSize.y)	?	Direction::kDown :
-			Direction::kNone;
+				(d.x >  mBoard.mTileSize.x)	?	Direction::kRight :
+				(d.y < -mBoard.mTileSize.y)	?	Direction::kUp :
+				(d.y >  mBoard.mTileSize.y)	?	Direction::kDown :
+				Direction::kNone;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -507,6 +507,7 @@ namespace Game
 
 			if(horiz != null || vert != null)
 			{
+				mActiveTile->mLayer = 0;
 				mActiveTile = null;
 				mState = kShowDefinition;
 				string addr;
@@ -738,7 +739,7 @@ namespace Game
 			mActiveTile->mLayer = 1;
 		}
 
-		if (Touch(0).Released())
+		if(Touch(0).Released())
 		{
 			ShuntTiles(mDragDirection, mTilePos, whichTile, direction);
 			mBoard.ResetTilePositions();
@@ -751,7 +752,7 @@ namespace Game
 			mActiveTile->mHorizontalWordPosition = Tile::WordPosition::None;
 			mActiveTile->mVerticalWordPosition = Tile::WordPosition::None;
 
-			if (IsHorizontal(mDragDirection))
+			if(IsHorizontal(mDragDirection))
 			{
 				for (int x = 0; x < mn.x; ++x)
 				{

@@ -77,7 +77,7 @@ namespace Game
 
 		// Ho hum - decide this based on screen resolution
 		mTileSize = Point2D(60, 64);
-		mFontScale = 0.725f;
+		mFontScale = 0.625f;
 		
 		mTileSourceSize = Point2D(96, 96);
 		mBoardSize = Point2D(mTileSize.x * mWidth, mTileSize.y * mHeight);
@@ -201,6 +201,7 @@ namespace Game
 		mFoundWords.delete_all();
 		mPreviousWords.delete_all();
 		mPreviousWords = mValidWords;
+		mValidWords.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -258,7 +259,6 @@ namespace Game
 		MarkWordPass(Word::Orientation::horizontal, 1, mWidth, 1, 0);
 		MarkWordPass(Word::Orientation::vertical, mWidth, mHeight, 0, 1);
 
-		// sort them by score, length descending
 		mFoundWords.sort();
 
 		// delete overlapped words and set up tile flags
@@ -324,8 +324,8 @@ namespace Game
 #if 0
 		for(int i=0; i<mNumTiles; ++i)
 		{
-			Point2D p(mTiles[i].mPosition + Vec2(40, 70));
-			DBG(p.x, p.y, L"%d,%d", mTiles[i].mIndex.x, mTiles[i].mIndex.y);
+			Point2D p(mTiles[i].mPosition + Vec2(4, 7));
+			DBG(p.x, p.y, L"%d", mTiles[i].mLayer);
 		}
 #endif
 	}

@@ -76,12 +76,15 @@ using namespace DirectX;
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <array>
 
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+
+using std::array;
 
 //////////////////////////////////////////////////////////////////////
 

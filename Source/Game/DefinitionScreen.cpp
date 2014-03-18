@@ -37,7 +37,6 @@ void DefinitionScreen::Close()
 void DefinitionScreen::Reset()
 {
 	Clear();
-	mStack.clear();
 	mStackPos = 0;
 }
 
@@ -55,9 +54,9 @@ DefinitionScreen::DefinitionScreen(SpriteList *spriteList, int width, int height
 	: Screen(spriteList)
 	, mCursorPos(0,0)
 	, mStackPos(0)
+	, mStackSize(0)
 	, mNumDefinitions(0)
 {
-	mStack.reserve(256);
 	mBackground = new UI::Rectangle(Vec2::zero, Vec2((float)::Screen::Width(), (float)::Screen::Height()), Color(0xF0, 0, 0, 0));
 	AddUIItem(mBackground);
 
@@ -67,7 +66,6 @@ DefinitionScreen::DefinitionScreen(SpriteList *spriteList, int width, int height
 		string s = AsciiStringFromWide(l->mText.c_str());
 		if(gDictionary->WordIndex(s.c_str()) != -1)
 		{
-			mDocument->Clear();
 			PushStack(s);
 			AddDefinition(s);
 		}
@@ -116,7 +114,7 @@ void DefinitionScreen::DumpStack()
 void DefinitionScreen::EnableNavigationButtons()
 {
 	mLeftButton->mEnabled = mStackPos > 0;
-	mRightButton->mEnabled = mStackPos < (int)(mStack.size() - 1);
+	mRightButton->mEnabled = mStackPos < mStackSize - 1;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -124,20 +122,16 @@ void DefinitionScreen::EnableNavigationButtons()
 void DefinitionScreen::PushStack(string s)
 {
 	// leak > 256 history entries
-	if(mStack.size() == 256)
+	if(mStackSize == mStack.size())
 	{
-		for(int i=0; i<256; ++i)
+		for(uint i=0; i<mStack.size(); ++i)
 		{
 			mStack[i] = mStack[i + 1];
 		}
-		mStack.pop_back();
+		--mStackSize;
 	}
-	if(mStackPos < (int)mStack.size() - 1)
-	{
-		mStack.resize(mStackPos + 1);
-	}
-	mStack.push_back(s);
-	mStackPos = mStack.size() - 1;
+	mStackPos = mStackSize;
+	mStack[mStackSize++] = s;
 	EnableNavigationButtons();
 }
 
@@ -147,9 +141,7 @@ void DefinitionScreen::PopStack()
 {
 	if(mStackPos > 0)
 	{
-		mStackPos--;
-		Clear();
-		AddDefinition(mStack[mStackPos].c_str());
+		AddDefinition(mStack[--mStackPos].c_str());
 	}
 	EnableNavigationButtons();
 }
@@ -158,11 +150,9 @@ void DefinitionScreen::PopStack()
 
 void DefinitionScreen::UnpopStack()
 {
-	if(mStackPos < (int)mStack.size() - 1)
+	if(mStackPos < mStackSize - 1)
 	{
-		mStackPos++;
-		Clear();
-		AddDefinition(mStack[mStackPos].c_str());
+		AddDefinition(mStack[++mStackPos].c_str());
 	}
 	EnableNavigationButtons();
 }
@@ -188,6 +178,7 @@ void DefinitionScreen::AddWord(string s)
 
 void DefinitionScreen::AddDefinition(string word)
 {
+	Clear();
 	if(mDocument->mCursor.y == 0)
 	{
 		mDocument->mCursor.y = 50;

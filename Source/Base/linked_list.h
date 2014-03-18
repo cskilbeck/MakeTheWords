@@ -15,10 +15,6 @@
 
 #include <functional>
 
-extern int gCopyConstructors;
-extern int gAssignmentOperators;
-extern int gMoveOperators;
-
 //////////////////////////////////////////////////////////////////////
 
 namespace chs
@@ -314,37 +310,37 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
-		void remove_range(ptr f, ptr l)
-		{
-			ptr op = prev(f);
-			ptr on = next(l);
-			get_node(op).next = on;
-			get_node(on).prev = op;
-		}
+        void remove_range(ptr f, ptr l)
+        {
+            ptr op = prev(f);
+            ptr on = next(l);
+            get_node(op).next = on;
+            get_node(on).prev = op;
+        }
 
         //////////////////////////////////////////////////////////////////////
 
-		void move_range_before(ptr where, list_t &other, ptr f, ptr l)
-		{
-			other.remove_range(f, l);
-			ptr p = get_node(where).prev;
-			get_node(p).next = f;
-			get_node(f).prev = p;
-			get_node(where).prev = l;
-			get_node(l).next = where;
-		}
+        void move_range_before(ptr where, list_t &other, ptr f, ptr l)
+        {
+            other.remove_range(f, l);
+            ptr p = get_node(where).prev;
+            get_node(p).next = f;
+            get_node(f).prev = p;
+            get_node(where).prev = l;
+            get_node(l).next = where;
+        }
 
         //////////////////////////////////////////////////////////////////////
 
-		void move_range_after(ptr where, list_t &other, ptr f, ptr l)
-		{
-			other.remove_range(f, l);
-			ptr p = get_node(where).next;
-			get_node(p).prev = l;
-			get_node(l).next = p;
-			get_node(where).next = f;
-			get_node(f).prev = where;
-		}
+        void move_range_after(ptr where, list_t &other, ptr f, ptr l)
+        {
+            other.remove_range(f, l);
+            ptr p = get_node(where).next;
+            get_node(p).prev = l;
+            get_node(l).next = p;
+            get_node(where).next = f;
+            get_node(f).prev = where;
+        }
 
         //////////////////////////////////////////////////////////////////////
 
@@ -362,16 +358,16 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
-		list_t &operator = (list_t &o)
-		{
-			return transfer(o, *this);
-		}
+        list_t &operator = (list_t &o)
+        {
+            return transfer(o, *this);
+        }
 
         //////////////////////////////////////////////////////////////////////
 
         list_t const &operator = (list_t const &&o)
         {
-			static_assert(false, "no assignments please...");
+            static_assert(false, "no assignments please...");
             return &nullptr;
         }
 
@@ -379,7 +375,7 @@ namespace chs
 
         list_t &operator = (list_t &&o)
         {
-			static_assert(false, "no rvalue moves please...");
+            static_assert(false, "no rvalue moves please...");
             return &nullptr;
         }
 
@@ -435,40 +431,36 @@ namespace chs
         void      insert_before(ref bef, ref obj) { insert_before(&bef, &obj); }
         void      insert_after(ref aft, ref obj)  { insert_after(&aft, &obj); }
 
-		void remove_range(ref f, ref l)
-		{
-			remove_range(&f, &l);
-		}
-		
-		void move_range_before(ref where, list_t &other, ref f, ref l)
-		{
-			move_range_before(&where, other, &f, &l);
-		}
-		
-		void move_range_after(ref where, list_t &other, ref f, ref l)
-		{
-			move_range_after(&where, other, &f, &l);
-		}
+        void remove_range(ref f, ref l)
+        {
+            remove_range(&f, &l);
+        }
+        
+        void move_range_before(ref where, list_t &other, ref f, ref l)
+        {
+            move_range_before(&where, other, &f, &l);
+        }
+        
+        void move_range_after(ref where, list_t &other, ref f, ref l)
+        {
+            move_range_after(&where, other, &f, &l);
+        }
 
-		//////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////
 
         void append(list_t &other_list)
         {
-			if(empty())
-			{
-				transfer(other_list, *this);
-			}
-            else if(!other_list.empty())
+            if(!other_list.empty())
             {
-				ptr oh = other_list.head();
-				ptr ot = other_list.tail();
-				ptr rt = root();
-				ptr mt = tail();
-				get_node(mt).next = oh;
-				get_node(oh).prev = mt;
-				get_node(ot).next = rt;
-				get_node(rt).prev = ot;
-				other_list.clear();
+                ptr oh = other_list.head();
+                ptr ot = other_list.tail();
+                ptr rt = root();
+                ptr mt = tail();
+                get_node(mt).next = oh;
+                get_node(oh).prev = mt;
+                get_node(ot).next = rt;
+                get_node(rt).prev = ot;
+                other_list.clear();
             }
         }
 
@@ -476,21 +468,17 @@ namespace chs
 
         void prepend(list_t &other_list)
         {
-            if(empty())
-			{
-				transfer(other_list, *this);
-			}
-            else if(!other_list.empty())
+            if(!other_list.empty())
             {
-				ptr oh = other_list.head();
-				ptr ot = other_list.tail();
-				ptr rt = root();
-				ptr mh = head();
-				get_node(mh).prev = ot;
-				get_node(ot).next = mh;
-				get_node(oh).prev = rt;
-				get_node(rt).next = oh;
-				other_list.clear();
+                ptr oh = other_list.head();
+                ptr ot = other_list.tail();
+                ptr rt = root();
+                ptr mh = head();
+                get_node(mh).prev = ot;
+                get_node(ot).next = mh;
+                get_node(oh).prev = rt;
+                get_node(rt).next = oh;
+                other_list.clear();
             }
         }
 
@@ -507,105 +495,103 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
-        void split(ref obj, list_t &new_list)
+        void split(ptr obj, list_t &new_list)
         {
-			T *prev_obj = prev(&obj);
-			if(prev_obj == root())
-			{
-				transfer(*this, new_list);
-			}
-			else
-			{
-				T *new_root = new_list.root();
-				T *old_tail = tail();
-				T *next_obj = next(&obj);
-				if(next_obj == root())
-				{
-					get_node(old_tail).prev = new_root;
-				}
-				get_node(old_tail).next = new_root;
-				get_node(prev_obj).next = root();
-				get_node(root()).prev = prev_obj;
-				new_list.get_node(new_root).next = &obj;
-				new_list.get_node(new_root).prev = old_tail;
-			}
-        }
-
-		//////////////////////////////////////////////////////////////////////
-		// empties left, result in right
-
-		static void merge(list_t &left, list_t &right)
-        {
-			list_t r(right);
-			ptr insert_point = r.head();
-			ptr run_head = left.head();
-			while(run_head != left.done() && insert_point != r.done())
-			{
-				while(insert_point != r.done() && *insert_point < *run_head)
-				{
-					insert_point = r.next(insert_point);
-				}
-				if(insert_point == r.done())
-				{
-					ptr ot = left.tail();
-					ptr rt = r.root();
-					ptr mt = r.tail();
-					get_node(mt).next = run_head;
-					get_node(run_head).prev = mt;
-					get_node(ot).next = rt;
-					get_node(rt).prev = ot;
-					left.clear();
-					break;
-				}
-				ptr n = r.next(insert_point);
-				ptr run_last = run_head;
-				ptr run_tail = run_head;
-				while(run_last != left.done() && !(*insert_point < *run_last))
-				{
-					run_tail = run_last;
-					run_last = left.next(run_last);
-				}
-				r.move_range_before(insert_point, left, run_head, run_tail);
-				run_head = run_last;
-				insert_point = n;
-			}
-			right = r;
-		}
-
-        //////////////////////////////////////////////////////////////////////
-		// thanks to the putty guy
-
-        static void merge_sort(list_t &list, size_t size, list_t &new_list)
-        {
-			list_t left(list);
-			size_t left_size = size / 2;
-			size_t right_size = size - left_size;
-            ptr m = left.head();
-            for(size_t s = 0; s < left_size; ++s)
-			{
-                m = left.next(m);
+            T *prev_obj = prev(obj);
+            if(prev_obj == root())
+            {
+                transfer(*this, new_list);
             }
-			left.split(*m, new_list);
-			if(left_size > 1)
-			{
-				merge_sort(left, left_size, left);
-			}
-			if(right_size > 1)
-			{
-	            merge_sort(new_list, right_size, new_list);
-			}
-			merge(left, new_list);
+            else
+            {
+                T *new_root = new_list.root();
+                T *old_tail = tail();
+                T *next_obj = next(obj);
+                if(next_obj == root())
+                {
+                    get_node(old_tail).prev = new_root;
+                }
+                get_node(old_tail).next = new_root;
+                get_node(prev_obj).next = root();
+                get_node(root()).prev = prev_obj;
+                new_list.get_node(new_root).next = obj;
+                new_list.get_node(new_root).prev = old_tail;
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        // empties a, result in b
+
+        static void merge(list_t &a, list_t &b)
+        {
+            ptr insert_point = b.head();
+            ptr run_head = a.head();
+            while(run_head != a.done() && insert_point != b.done())
+            {
+                // find where to put a run in b
+                while(insert_point != b.done() && *insert_point < *run_head)
+                {
+                    insert_point = b.next(insert_point);
+                }
+                // scanned off the end?
+                if(insert_point != b.done())
+                {
+                    // no, find how long the run should be from a
+                    ptr run_start = run_head;
+                    ptr run_end = run_head;
+                    while(run_head != a.done() && !(*insert_point < *run_head))
+                    {
+                        run_end = run_head;
+                        run_head = a.next(run_head);
+                    }
+                    // and insert it into b
+                    b.move_range_before(insert_point, a, run_start, run_end);
+                }
+                else
+                {
+                    // yes, just append remainder of a onto b
+                    ptr ot = a.tail();
+                    ptr rt = b.root();
+                    ptr mt = b.tail();
+                    get_node(mt).next = run_head;
+                    get_node(run_head).prev = mt;
+                    get_node(ot).next = rt;
+                    get_node(rt).prev = ot;
+                    a.clear();
+                    break;
+                }
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////
+        // thanks to the putty guy
+
+        static void merge_sort(list_t &list, size_t size)
+        {
+            if(size > 1)
+            {
+                list_t left(list);
+                list_t right;
+                size_t left_size = size / 2;
+                size_t right_size = size - left_size;
+                ptr m = left.head();
+                for(size_t s = 0; s < left_size; ++s)
+                {
+                    m = left.next(m);
+                }
+                left.split(m, right);
+                merge_sort(left, left_size);
+                merge_sort(right, right_size);
+                merge(left, right);
+                list = right;
+            }
         }
 
         //////////////////////////////////////////////////////////////////////
 
-		void sort()
+        void sort()
         {
-			size_t s = size();
-			if(s > 1)
-			{
-				merge_sort(*this, s, *this);
-			}
+            merge_sort(*this, size());
         }
 
         //////////////////////////////////////////////////////////////////////

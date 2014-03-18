@@ -821,7 +821,7 @@ void SpriteList::AddSprite(Vec2 const &pos, Vec2 const &size, Vec2 const &uvTopL
 
 void SpriteList::SubmitAll()
 {
-	for(auto &l: SpriteListImpl::sAllSpriteLists)
+	for(auto &l: reverse(SpriteListImpl::sAllSpriteLists))
 	{
 		l.Submit();
 	}

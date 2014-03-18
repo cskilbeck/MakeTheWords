@@ -16,6 +16,7 @@ void DBG(int x, int y, wchar const *strMsg, ...);
 
 uint8 *LoadFile(char const *filename, size_t *size = null);
 wstring WideStringFromString(string const &str);
+string StringFromWideString(wstring const &str);
 wstring Format(wchar const *fmt, ...);
 string Format(char const *fmt, ...);
 
