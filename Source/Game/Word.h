@@ -38,7 +38,7 @@ namespace Game
 			}
 			else
 			{
-				return mDictionaryWord > other.mDictionaryWord;
+				return mDictionaryWord < other.mDictionaryWord;
 			}
 		}
 

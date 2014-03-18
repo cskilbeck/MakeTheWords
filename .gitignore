@@ -8,8 +8,10 @@
 
 # Build results
 
-[Dd]ebug/
-[Rr]elease/
+D3D_Debug/
+D3D_Release/
+OpenGL_Debug/
+OpenGL_Release/
 x64/
 build/
 [Bb]in/
@@ -22,6 +24,7 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+*.lastbuildstate
 *_i.c
 *_p.c
 *.ilk

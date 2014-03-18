@@ -45,6 +45,20 @@ void DBG(int x, int y, char const *strMsg, ...)
 	g_DebugFont->DrawString(g_DebugSpriteList, strBuffer, Vec2((float)x, (float)y));
 }
 
+void DBG(int x, int y, wchar const *strMsg, ...)
+{
+	wchar strBuffer[512];
+	va_list args;
+	va_start(args, strMsg);
+	_vsnwprintf_s(strBuffer, 512, strMsg, args);
+	va_end(args);
+	string s(StringFromWideString(wstring(strBuffer)));
+	extern Font *g_DebugFont;
+	extern SpriteList *g_DebugSpriteList;
+	g_DebugSpriteList->ResetTransform();
+	g_DebugFont->DrawString(g_DebugSpriteList, s.c_str(), Vec2((float)x, (float)y));
+}
+
 #endif
 
 //////////////////////////////////////////////////////////////////////
@@ -124,6 +138,21 @@ wstring WideStringFromString(string const &str)
 	MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.size(), &temp[0], str.size());
 	temp[str.size()] = 0;
 	return wstring(&temp[0]);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+string StringFromWideString(wstring const &str)
+{
+	vector<char> temp;
+	int bufSize = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), str.size() + 1, NULL, 0, NULL, FALSE);
+	if(bufSize > 0)
+	{
+		temp.resize(bufSize);
+		WideCharToMultiByte(CP_UTF8, 0, str.c_str(), str.size() + 1, &temp[0], bufSize, NULL, FALSE);
+		return string(&temp[0]);
+	}
+	return string();
 }
 
 //////////////////////////////////////////////////////////////////////

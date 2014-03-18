@@ -21,15 +21,15 @@ namespace Game
 		sTimer.Reset();
 		Tile::sSpriteList = spriteList;
 		sTileTexture = Texture::Load("allColour.png");
-		sTileFont = FontManager::Load("Copperplate_Gothic_Bold_48");
+		sTileFont = FontManager::Load("Cooper_Black_48");
 	}
 
 	//////////////////////////////////////////////////////////////////////
 
 	void Tile::Close()
 	{
-		SafeRelease(sTileTexture);
-		SafeRelease(sTileFont);
+		Release(sTileTexture);
+		Release(sTileFont);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -154,7 +154,7 @@ namespace Game
 		str[1] = 0;
 		sSpriteList->SetBlendingMode(SpriteList::eBlendMode::kModulate);
 		Vec2 offset(tileSize / 2);
-		offset.y += sTileFont->GetBaseline() / 3;	// TODO: fix this letter offset hassle!!
+		offset.y += sTileFont->GetBaseline() / 4;	// TODO: fix this letter offset hassle!!
 		sTileFont->DrawString(sSpriteList, str, mPosition + offset, Font::HCentre, Font::VCentre);
 	}
 

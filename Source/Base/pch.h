@@ -24,16 +24,18 @@
 
 	#if !defined(OPENGL)
 		#include <d3d11.h>
-		#include <d3dx11.h>
+//		#include <d3dx11.h>
 		#include <d3dcompiler.h>
 		#include <d3dcommon.h>
-		#include <xnamath.h>
+		#include <DirectXMath.h>
 	#endif
 
 	#include <atlbase.h>
 	#include <crtdbg.h>
 
 #endif
+
+using namespace DirectX;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -74,12 +76,15 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <array>
 
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+
+using std::array;
 
 //////////////////////////////////////////////////////////////////////
 

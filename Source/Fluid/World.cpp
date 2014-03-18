@@ -14,7 +14,7 @@ World::World()
 
 void World::Release()
 {
-	SafeDelete(mParticles);
+	Delete(mParticles);
 	mGrid.Release();
 	mSpringFlags.Release();
 	mNeighbourhood.Release();

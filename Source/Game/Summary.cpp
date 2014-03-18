@@ -35,10 +35,10 @@ Summary::Summary(SpriteList *spriteList) : Screen(spriteList)
 
 Summary::~Summary()
 {
-	SafeDelete(mDefinitionScreen);
+	Delete(mDefinitionScreen);
 	RemoveUIItem(mDocument);
-	SafeDelete(mDocument);
-	SafeRelease(mFont);
+	Delete(mDocument);
+	::Release(mFont);
 }
 
 //////////////////////////////////////////////////////////////////////

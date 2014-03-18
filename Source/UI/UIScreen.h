@@ -65,7 +65,7 @@ namespace UI
 
 		virtual eComponentReturnCode Update()
 		{
-			for(auto &i : chs::reverse(mItems))
+			for(auto &i : reverse(mItems))
 			{
 				if(i.Update() == false)
 				{

@@ -353,17 +353,16 @@ SpriteList::SpriteListImpl::~SpriteListImpl()
 	mCurrentIndex = 0;
 	mCurrentVertBufferIndex = 0;
 
-	SafeDeleteArray(mSpriteRuns);
-	SafeDeleteArray(mSpriteVerts0);
-	SafeDeleteArray(mSpriteVerts1);
+	Delete(mSpriteRuns);
+	Delete(mSpriteVerts0);
+	Delete(mSpriteVerts1);
 
-	SafeRelease(mVertexBuffer[0]);
-	SafeRelease(mVertexBuffer[1]);
-
-	SafeRelease(mCBProjection);
-	SafeRelease(mRasterizerState);
-	SafeRelease(mBlendState);
-	SafeRelease(mSamplerLinear);
+	::Release(mVertexBuffer[0]);
+	::Release(mVertexBuffer[1]);
+	::Release(mCBProjection);
+	::Release(mRasterizerState);
+	::Release(mBlendState);
+	::Release(mSamplerLinear);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -373,27 +372,21 @@ HRESULT SpriteList::SpriteListImpl::Open()
 	if(spVertexShader == null)
 	{
 		HRESULT hr;
-		ID3DBlob *pVSBlob = NULL;
 
-		hr = CompileShaderFromFile(L"Main.fx", "SpriteVertexShader", "vs_4_0_level_9_1", &pVSBlob);
-		if(FAILED(hr))
+		size_t size;
+		uint8 *buffer = LoadFile("VertexShader.cso", &size);
+		if(buffer == null)
 		{
 			assert(false);
 			Close();
-			return hr;
+			return ERROR_FILE_NOT_FOUND;
 		}
-
-		size_t size = pVSBlob->GetBufferSize();
-		void *buffer = pVSBlob->GetBufferPointer();
-
-		//size_t size1;
-		//void *buffer1 = LoadFile(L"svs.bin", &size1);
 
 		hr = gDevice->CreateVertexShader(buffer, size, NULL, &spVertexShader);
 
 		if(FAILED(hr))
 		{	
-			pVSBlob->Release();
+			Delete(buffer);
 			assert(false);
 			Close();
 			return hr;
@@ -407,8 +400,8 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		};
 		UINT numElements = ARRAYSIZE(layout);
 
-		hr = gDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &spVertexLayout);
-		pVSBlob->Release();
+		hr = gDevice->CreateInputLayout(layout, numElements, buffer, size, &spVertexLayout);
+		Delete(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -419,17 +412,17 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 	if(spPixelShader == null)
 	{
-		ID3DBlob *pPSBlob = NULL;
-		HRESULT hr = CompileShaderFromFile(L"Main.fx", "SpritePixelShader", "ps_4_0_level_9_1", &pPSBlob);
-		if(FAILED(hr))
+		size_t size;
+		uint8 *buffer = LoadFile("PixelShader.cso", &size);
+		if(buffer == null)
 		{
 			assert(false);
 			Close();
-			return hr;
+			return ERROR_FILE_NOT_FOUND;
 		}
 
-		hr = gDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &spPixelShader);
-		pPSBlob->Release();
+		HRESULT hr = gDevice->CreatePixelShader(buffer, size, NULL, &spPixelShader);
+		Delete(buffer);
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -445,10 +438,10 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 void SpriteList::SpriteListImpl::Close()
 {
-	SafeRelease(sWhiteTexture);
-	SafeRelease(spVertexLayout);
-	SafeRelease(spVertexShader);
-	SafeRelease(spPixelShader);
+	::Release(sWhiteTexture);
+	::Release(spVertexLayout);
+	::Release(spVertexShader);
+	::Release(spPixelShader);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -700,7 +693,7 @@ bool SpriteList::Init(int maxSprites, int maxRuns)
 
 SpriteList::~SpriteList()
 {
-	SafeDelete(impl);
+	Delete(impl);
 
 	SpriteListImpl::sAllSpriteLists.remove(this);
 	if(SpriteListImpl::sAllSpriteLists.empty())
@@ -828,7 +821,7 @@ void SpriteList::AddSprite(Vec2 const &pos, Vec2 const &size, Vec2 const &uvTopL
 
 void SpriteList::SubmitAll()
 {
-	for(auto &l: SpriteListImpl::sAllSpriteLists)
+	for(auto &l: reverse(SpriteListImpl::sAllSpriteLists))
 	{
 		l.Submit();
 	}

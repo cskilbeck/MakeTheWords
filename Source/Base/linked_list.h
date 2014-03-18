@@ -13,6 +13,8 @@
 #define VC_WORKAROUND (list_node<T> T::*)nullptr != NODE
 #endif
 
+#include <functional>
+
 //////////////////////////////////////////////////////////////////////
 
 namespace chs
@@ -308,6 +310,40 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
+        void remove_range(ptr f, ptr l)
+        {
+            ptr op = prev(f);
+            ptr on = next(l);
+            get_node(op).next = on;
+            get_node(on).prev = op;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        void move_range_before(ptr where, list_t &other, ptr f, ptr l)
+        {
+            other.remove_range(f, l);
+            ptr p = get_node(where).prev;
+            get_node(p).next = f;
+            get_node(f).prev = p;
+            get_node(where).prev = l;
+            get_node(l).next = where;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        void move_range_after(ptr where, list_t &other, ptr f, ptr l)
+        {
+            other.remove_range(f, l);
+            ptr p = get_node(where).next;
+            get_node(p).prev = l;
+            get_node(l).next = p;
+            get_node(where).next = f;
+            get_node(f).prev = where;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
         linked_list()
         {
             clear();
@@ -315,23 +351,32 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
-        linked_list(list_t &other)
+        explicit linked_list(list_t &other)
         {
             transfer(other, *this);
         }
 
         //////////////////////////////////////////////////////////////////////
 
-        list_t &operator = (list_t & o)
+        list_t &operator = (list_t &o)
         {
             return transfer(o, *this);
         }
 
         //////////////////////////////////////////////////////////////////////
 
-        list_t &operator = (list_t && o)
+        list_t const &operator = (list_t const &&o)
         {
-            return transfer(o, *this);
+            static_assert(false, "no assignments please...");
+            return &nullptr;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        list_t &operator = (list_t &&o)
+        {
+            static_assert(false, "no rvalue moves please...");
+            return &nullptr;
         }
 
         //////////////////////////////////////////////////////////////////////
@@ -386,18 +431,35 @@ namespace chs
         void      insert_before(ref bef, ref obj) { insert_before(&bef, &obj); }
         void      insert_after(ref aft, ref obj)  { insert_after(&aft, &obj); }
 
+        void remove_range(ref f, ref l)
+        {
+            remove_range(&f, &l);
+        }
+        
+        void move_range_before(ref where, list_t &other, ref f, ref l)
+        {
+            move_range_before(&where, other, &f, &l);
+        }
+        
+        void move_range_after(ref where, list_t &other, ref f, ref l)
+        {
+            move_range_after(&where, other, &f, &l);
+        }
+
         //////////////////////////////////////////////////////////////////////
 
         void append(list_t &other_list)
         {
             if(!other_list.empty())
             {
-                ptr mt = tail();
                 ptr oh = other_list.head();
+                ptr ot = other_list.tail();
+                ptr rt = root();
+                ptr mt = tail();
                 get_node(mt).next = oh;
                 get_node(oh).prev = mt;
-                get_node(other_list.tail()).next = root();
-                node.prev = other_list.tail();
+                get_node(ot).next = rt;
+                get_node(rt).prev = ot;
                 other_list.clear();
             }
         }
@@ -408,11 +470,14 @@ namespace chs
         {
             if(!other_list.empty())
             {
-                ptr mh = head();
+                ptr oh = other_list.head();
                 ptr ot = other_list.tail();
+                ptr rt = root();
+                ptr mh = head();
                 get_node(mh).prev = ot;
                 get_node(ot).next = mh;
-                node.next = other_list.head();
+                get_node(oh).prev = rt;
+                get_node(rt).next = oh;
                 other_list.clear();
             }
         }
@@ -430,79 +495,103 @@ namespace chs
 
         //////////////////////////////////////////////////////////////////////
 
-        list_t split(ref obj)
+        void split(ptr obj, list_t &new_list)
         {
-            list_t new_list;
-            T *new_root = new_list.root();
-            T *old_tail = tail();
-            T *prev_obj = prev(&obj);
-            get_node(prev_obj).next = root();
-            get_node(root()).prev = prev_obj;
-            new_list.get_node(new_root).next = &obj;
-            new_list.get_node(new_root).prev = old_tail;
-            get_node(old_tail).next = new_root;
-            return new_list;
+            T *prev_obj = prev(obj);
+            if(prev_obj == root())
+            {
+                transfer(*this, new_list);
+            }
+            else
+            {
+                T *new_root = new_list.root();
+                T *old_tail = tail();
+                T *next_obj = next(obj);
+                if(next_obj == root())
+                {
+                    get_node(old_tail).prev = new_root;
+                }
+                get_node(old_tail).next = new_root;
+                get_node(prev_obj).next = root();
+                get_node(root()).prev = prev_obj;
+                new_list.get_node(new_root).next = obj;
+                new_list.get_node(new_root).prev = old_tail;
+            }
         }
 
         //////////////////////////////////////////////////////////////////////
+        // empties a, result in b
 
-        static list_t merge(list_t &left, list_t &right)
+        static void merge(list_t &a, list_t &b)
         {
-            list_t new_list;
-            while(!left.empty() && !right.empty())
+            ptr insert_point = b.head();
+            ptr run_head = a.head();
+            while(run_head != a.done() && insert_point != b.done())
             {
-                ptr l = left.head();
-                ptr r = right.head();
-                ptr w;
-                if(*r < *l)
+                // find where to put a run in b
+                while(insert_point != b.done() && *insert_point < *run_head)
                 {
-                    w = right.pop_front();
+                    insert_point = b.next(insert_point);
+                }
+                // scanned off the end?
+                if(insert_point != b.done())
+                {
+                    // no, find how long the run should be from a
+                    ptr run_start = run_head;
+                    ptr run_end = run_head;
+                    while(run_head != a.done() && !(*insert_point < *run_head))
+                    {
+                        run_end = run_head;
+                        run_head = a.next(run_head);
+                    }
+                    // and insert it into b
+                    b.move_range_before(insert_point, a, run_start, run_end);
                 }
                 else
                 {
-                    w = left.pop_front();
+                    // yes, just append remainder of a onto b
+                    ptr ot = a.tail();
+                    ptr rt = b.root();
+                    ptr mt = b.tail();
+                    get_node(mt).next = run_head;
+                    get_node(run_head).prev = mt;
+                    get_node(ot).next = rt;
+                    get_node(rt).prev = ot;
+                    a.clear();
+                    break;
                 }
-                new_list.push_back(w);
             }
-            if(!left.empty())
-            {
-                new_list.append(left);
-            }
-            else if(!right.empty())
-            {
-                new_list.append(right);
-            }
-            return new_list;
         }
 
         //////////////////////////////////////////////////////////////////////
+        // thanks to the putty guy
 
-        static list_t sort(list_t list)
+        static void merge_sort(list_t &list, size_t size)
         {
-            ptr h = list.head();
-            ptr m = h;
-            int s = 0;
-            while(h != list.root() && list.next(h) != list.root())
+            if(size > 1)
             {
-                m = list.next(m);
-                h = list.next(m);
-                ++s;
+                list_t left(list);
+                list_t right;
+                size_t left_size = size / 2;
+                size_t right_size = size - left_size;
+                ptr m = left.head();
+                for(size_t s = 0; s < left_size; ++s)
+                {
+                    m = left.next(m);
+                }
+                left.split(m, right);
+                merge_sort(left, left_size);
+                merge_sort(right, right_size);
+                merge(left, right);
+                list = right;
             }
-            if(s == 0)
-            {
-                return list;
-            }
-            list_t right = list.split(*m);
-            list = sort(list);
-            right = sort(right);
-            return merge(list, right);
         }
 
         //////////////////////////////////////////////////////////////////////
 
         void sort()
         {
-            *this = sort(*this);
+            merge_sort(*this, size());
         }
 
         //////////////////////////////////////////////////////////////////////
@@ -530,79 +619,85 @@ namespace chs
             return t;
         }
 
-    };
+        //////////////////////////////////////////////////////////////////////
 
-    //////////////////////////////////////////////////////////////////////
-
-    template <typename T> std::string to_string(T const &l, char const *separator = ",")
-    {
-        std::string s;
-        char const *sep = "";
-        for(auto const &p: l)
+        template<class O> ptr find_first_of(O const &t)
         {
-            s += sep;
-            s += p.to_string();
-            sep = separator;
-        }
-        return s;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-
-    template<class T> struct in_reverse
-    {
-        T &l;
-        in_reverse(T &list) : l(list) {}
-
-        auto begin() ->         decltype(l. rbegin())   { return l.rbegin(); } 
-        auto begin() const ->   decltype(l.crbegin())   { return l.crbegin(); } 
-        auto end() ->           decltype(l. rend())     { return l.rend(); } 
-        auto end() const ->     decltype(l.crend())     { return l.crend(); } 
-    };
-
-    template<class T> in_reverse<T> reverse(T &l)
-    {
-        return in_reverse<T>(l);
-    }
-
-    //////////////////////////////////////////////////////////////////////
-
-    template<class L, class T> auto find_first_of(L &l, T &t) -> decltype(l.begin())
-    {
-        return std::find(l.begin(), l.end(), t);
-    }
-
-    //////////////////////////////////////////////////////////////////////
-
-    template<class L, class T> auto find_last_of(L &l, T &t) -> decltype(l.rbegin())
-    {
-        return std::find(l.rbegin(), l.rend(), t);
-    }
-
-    //////////////////////////////////////////////////////////////////////
-
-    template<class L> void remove_and_delete_all(L &l)
-    {
-		while(!l.empty())
-		{
-			auto p = l.pop_front();
-			delete p;
-		}
-    }
-
-    //////////////////////////////////////////////////////////////////////
-
-    template<class L> void delete_if(L &l, std::function<bool(decltype(*(l.begin())))> func)
-    {
-        for(auto i = l.begin(), end = l.end(), n = i; ++n, i != end; i = n)
-        {
-            if(func(*i))
+            for(auto p = head(); p != done(); p = next(p))
             {
-                l.remove(i);
-                delete &(*i);
+                if(*p == t)
+                {
+                    return p;
+                }
+            }
+            return nullptr;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        template<typename O> ptr find_last_of(O const &t)
+        {
+            for(auto p = tail(); p != done(); p = prev(p))
+            {
+                if(*p == t)
+                {
+                    return p;
+                }
+            }
+            return nullptr;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        unsigned remove_if(std::function<bool(ref)> func)
+        {
+            unsigned total = 0;
+            for(auto i = begin(), _end = end(), n = i; ++n, i != _end; i = n)
+            {
+                if(func(*i))
+                {
+                    remove(i);
+                    ++total;
+                }
+            }
+            return total;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        unsigned delete_if(std::function<bool(ref)> func)
+        {
+            unsigned total = 0;
+            for(auto i = begin(), _end = end(), n = i; ++n, i != _end; i = n)
+            {
+                if(func(*i))
+                {
+                    remove(i);
+                    delete i;
+                    ++total;
+                }
+            }
+            return total;
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        void remove_all()
+        {
+            clear();
+        }
+
+        //////////////////////////////////////////////////////////////////////
+
+        void delete_all()
+        {
+            while(!empty())
+            {
+                ptr i = pop_front();
+                delete i;
             }
         }
-    }
+    };
 
     //////////////////////////////////////////////////////////////////////
 

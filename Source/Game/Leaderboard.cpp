@@ -46,19 +46,18 @@ Leaderboard::~Leaderboard()
 	RemoveUIItem(mDownButton);
 	RemoveUIItem(mBottomButton);
 
-	SafeDelete(mTopButton);
-	SafeDelete(mUpButton);
-	SafeDelete(mMiddleButton);
-	SafeDelete(mDownButton);
-	SafeDelete(mBottomButton);
+	Delete(mTopButton);
+	Delete(mUpButton);
+	Delete(mMiddleButton);
+	Delete(mDownButton);
+	Delete(mBottomButton);
 
-	SafeRelease(mTopTexture);
-	SafeRelease(mUpTexture);
-	SafeRelease(mMiddleTexture);
-	SafeRelease(mDownTexture);
-	SafeRelease(mBottomTexture);
-
-	SafeRelease(mFont);
+	::Release(mTopTexture);
+	::Release(mUpTexture);
+	::Release(mMiddleTexture);
+	::Release(mDownTexture);
+	::Release(mBottomTexture);
+	::Release(mFont);
 }
 
 //////////////////////////////////////////////////////////////////////

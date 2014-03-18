@@ -81,7 +81,7 @@ ParticleList::ParticleList(linked_list<ParticleList> &list, Vec2 const &start, V
 
 ParticleList::~ParticleList()
 {
-	chs::remove_and_delete_all(mParticles);
+	mParticles.delete_all();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ void ParticleList::Draw(SpriteList *spriteList)
 
 Component::eComponentReturnCode Particles::Update()
 {
-	chs::delete_if(mParticleLists, [] (ParticleList &p)
+	mParticleLists.delete_if([] (ParticleList &p)
 	{
 		return g_Time > p.mDeathTime;
 	});
@@ -134,7 +134,7 @@ Particles::Particles(SpriteList *spriteList)
 
 Particles::~Particles()
 {
-	SafeRelease(mBlingTexture);
+	::Release(mBlingTexture);
 }
 
 //////////////////////////////////////////////////////////////////////

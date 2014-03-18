@@ -61,7 +61,7 @@ namespace Reference
 			gDictionary = new Dictionary(filename);
 			if(gDictionary->mFile == null)
 			{
-				SafeRelease(gDictionary);
+				::Release(gDictionary);
 			}
 		}
 		else
@@ -176,8 +176,8 @@ namespace Reference
 
 	Dictionary::~Dictionary()
 	{
-		SafeDeleteArray(mDefinition);
-		SafeDelete(mFile);
+		Delete(mDefinition);
+		Delete(mFile);
 	}
 
 	//////////////////////////////////////////////////////////////////////

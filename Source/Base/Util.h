@@ -16,6 +16,7 @@ void DBG(int x, int y, wchar const *strMsg, ...);
 
 uint8 *LoadFile(char const *filename, size_t *size = null);
 wstring WideStringFromString(string const &str);
+string StringFromWideString(wstring const &str);
 wstring Format(wchar const *fmt, ...);
 string Format(char const *fmt, ...);
 
@@ -64,7 +65,7 @@ template <typename T> inline int64 asciiToInt64(T const *p)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeDeleteArray(T * &arr)
+template <typename T> void Delete(T (&arr)[])
 {
 	if(arr != null)
 	{
@@ -75,7 +76,7 @@ template <typename T> void SafeDeleteArray(T * &arr)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeDelete(T * &arr)
+template <typename T> void Delete(T * &arr)
 {
 	if(arr != null)
 	{
@@ -86,7 +87,7 @@ template <typename T> void SafeDelete(T * &arr)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void SafeRelease(T * &ptr)
+template <typename T> void Release(T * &ptr)
 {
 	if(ptr != null)
 	{
@@ -171,3 +172,22 @@ inline int NextPowerOf2(int v)
 	v++;
 	return v;
 }
+
+//////////////////////////////////////////////////////////////////////
+
+template<class T> struct in_reverse
+{
+    T &l;
+    in_reverse(T &list) : l(list) {}
+
+    auto begin() ->         decltype(l.rbegin())   { return l.rbegin(); } 
+    auto begin() const ->   decltype(l.crbegin())  { return l.crbegin(); } 
+    auto end() ->           decltype(l.rend())     { return l.rend(); } 
+    auto end() const ->     decltype(l.crend())    { return l.crend(); } 
+};
+
+template<class T> in_reverse<T> reverse(T &l)
+{
+    return in_reverse<T>(l);
+}
+

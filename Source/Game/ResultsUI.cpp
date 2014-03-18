@@ -50,16 +50,16 @@ ResultsUI::ResultsUI(SpriteList *spriteList) : Screen(spriteList)
 ResultsUI::~ResultsUI()
 {
 	RemoveUIItem(mFillRectangle);
-	SafeDelete(mFillRectangle);
+	Delete(mFillRectangle);
 	RemoveUIItem(mCloseButton);
-	SafeDelete(mCloseButton);
-	SafeRelease(mCloseTexture);
+	Delete(mCloseButton);
+	::Release(mCloseTexture);
 
-	SafeDelete(mHeaderBar);
-	SafeDelete(mLeaderboard);
-	SafeDelete(mSummary);
+	Delete(mHeaderBar);
+	Delete(mLeaderboard);
+	Delete(mSummary);
 
-	SafeRelease(mHeaderFont);
+	::Release(mHeaderFont);
 }
 
 //////////////////////////////////////////////////////////////////////

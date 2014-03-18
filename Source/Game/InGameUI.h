@@ -28,10 +28,10 @@ namespace Game
 		{
 			RemoveUIItem(mUndoButton);
 			RemoveUIItem(mQuitButton);
-			SafeDelete(mUndoButton);
-			SafeDelete(mQuitButton);
-			SafeRelease(mUndoTexture);
-			SafeRelease(mCloseTexture);
+			Delete(mUndoButton);
+			Delete(mQuitButton);
+			::Release(mUndoTexture);
+			::Release(mCloseTexture);
 		}
 	};
 

@@ -14,7 +14,8 @@ struct DefinitionScreen : UI::Screen
 	UI::Rectangle *		mBackground;
 	UI::Document *		mDocument;
 	Vec2				mCursorPos;
-	vector<string>		mStack;
+	array<string, 256>	mStack;
+	int					mStackSize;
 	int					mStackPos;
 	int					mNumDefinitions;
 
