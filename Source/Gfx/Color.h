@@ -73,10 +73,10 @@ struct Color
 		return *this;
 	}
 
-	uint8 GetAlpha()	{ 	return (mColor >> kAlphaOffset)	& 0xff;	}
-	uint8 GetRed()		{	return (mColor >> kRedOffset)	& 0xff;	}
-	uint8 GetGreen()	{	return (mColor >> kGreenOffset)	& 0xff;	}
-	uint8 GetBlue()		{	return (mColor >> kBlueOffset)	& 0xff;	}
+	uint32 GetAlpha() const	{ 	return (mColor >> kAlphaOffset)	& 0xff;	}
+	uint32 GetRed() const	{	return (mColor >> kRedOffset)	& 0xff;	}
+	uint32 GetGreen() const	{	return (mColor >> kGreenOffset)	& 0xff;	}
+	uint32 GetBlue() const	{	return (mColor >> kBlueOffset)	& 0xff;	}
 
 	void SetAlpha(int a)	{	mColor = (mColor & (~0xffffff00 << kAlphaOffset))	| (a << kAlphaOffset);	}
 	void SetRed(int r)		{	mColor = (mColor & (~0xffffff00 << kRedOffset))		| (r << kRedOffset);	}
@@ -90,6 +90,17 @@ struct Color
 						(GetRed()	* lerp + other.GetRed()		* inv) >> 8,
 						(GetGreen()	* lerp + other.GetGreen()	* inv) >> 8,
 						(GetBlue()	* lerp + other.GetBlue()	* inv) >> 8);
+	}
+
+	Color operator * (Color const &other)
+	{
+		return Color(
+			
+			GetAlpha()	* other.GetAlpha() >> 8,
+			GetRed()	* other.GetRed() >> 8,
+			GetGreen()	* other.GetGreen() >> 8,
+			GetBlue()	* other.GetBlue() >> 8
+			);
 	}
 
 	enum : uint32

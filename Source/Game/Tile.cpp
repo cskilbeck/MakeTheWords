@@ -155,7 +155,16 @@ namespace Game
 		sSpriteList->SetBlendingMode(SpriteList::eBlendMode::kModulate);
 		Vec2 offset(tileSize / 2);
 		offset.y += sTileFont->GetBaseline() / 4;	// TODO: fix this letter offset hassle!!
-		sTileFont->DrawString(sSpriteList, str, mPosition + offset, Font::HCentre, Font::VCentre);
+		Color c = Color::White;
+		if(mState == kBeingDragged)
+		{
+			c = 0xC0FFFFFF;
+		}
+		else if(mFlags(kHoveredOver))
+		{
+			c = 0xFF80FF40;
+		}
+		sTileFont->DrawString(sSpriteList, str, mPosition + offset, Font::HCentre, Font::VCentre, c);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -182,7 +191,11 @@ namespace Game
 		Color c = 0xffffffff;
 		if(mState == kBeingDragged)
 		{
-			c = 0xc0ffffff;
+			c = 0xA0FFFFFF;
+		}
+		else if(mFlags(kHoveredOver))
+		{
+			c = 0xFF80FF40;
 		}
 
 		sSpriteList->AddSprite(mPosition, ts, uv, uv + tileSourceSize, c);

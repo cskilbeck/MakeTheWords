@@ -36,10 +36,10 @@ struct Font : RefCount
 	int GetHeight() const;
 	float GetBaseline() const;
 	string WrapText(string txt, uint pixelWidth, string lineBreak);
-	void DrawString(SpriteList *spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign = HLeft, Font::VerticalAlign vertAlign = VTop);
-	void DrawString(SpriteList *spriteList, char const *text, Vec2 const &pos, HorizontalAlign horizAlign = HLeft, VerticalAlign vertAlign = VTop);
-	void DrawString(SpriteList &spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign = HLeft, Font::VerticalAlign vertAlign = VTop);
-	void DrawString(SpriteList &spriteList, char const *text, Vec2 const &pos, HorizontalAlign horizAlign = HLeft, VerticalAlign vertAlign = VTop);
+	void DrawString(SpriteList *spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign = HLeft, Font::VerticalAlign vertAlign = VTop, Color color = 0xffffffff);
+	void DrawString(SpriteList *spriteList, char const *text, Vec2 const &pos, HorizontalAlign horizAlign = HLeft, VerticalAlign vertAlign = VTop, Color color = 0xffffffff);
+	void DrawString(SpriteList &spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign = HLeft, Font::VerticalAlign vertAlign = VTop, Color color = 0xffffffff);
+	void DrawString(SpriteList &spriteList, char const *text, Vec2 const &pos, HorizontalAlign horizAlign = HLeft, VerticalAlign vertAlign = VTop, Color color = 0xffffffff);
 
 	string mName;
 	list_node<Font> mListNode;

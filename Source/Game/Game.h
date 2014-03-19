@@ -83,6 +83,7 @@ namespace Game
 		Tile *				mActiveTile;
 
 		Tile *				mFirstClickedTile;
+		Tile *				mHoverTile;
 
 		DefinitionScreen *	mDefinitionScreen;
 

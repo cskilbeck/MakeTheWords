@@ -32,6 +32,11 @@ namespace Game
 			kDrop					// Fall down the screen
 		};
 
+		enum // Flags
+		{
+			kHoveredOver = 1
+		};
+
 		Word *				mHorizontalWord;
 		Word *				mVerticalWord;
 		int					mHorizontalIndex;
@@ -57,6 +62,8 @@ namespace Game
 		State				mOldState;
 
 		float				mStateTime;
+
+		Flags				mFlags;
 
 		static Font *		sTileFont;
 		static Texture *	sTileTexture;

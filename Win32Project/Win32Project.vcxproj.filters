@@ -696,6 +696,9 @@
     <ClInclude Include="..\Source\Base\linked_list.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Base\Flags.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Source\Fluid\Constants.cpp">

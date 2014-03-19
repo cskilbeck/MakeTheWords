@@ -455,28 +455,28 @@ string Font::WrapText(string txt, uint pixelWidth, string lineBreak)
 
 //////////////////////////////////////////////////////////////////////
 
-void Font::DrawString(SpriteList *spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign)
+void Font::DrawString(SpriteList *spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign, Color color)
 {
-	DrawString(*spriteList, text.c_str(), pos, horizAlign, vertAlign);
+	DrawString(*spriteList, text.c_str(), pos, horizAlign, vertAlign, color);
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void Font::DrawString(SpriteList &spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign)
+void Font::DrawString(SpriteList &spriteList, string const &text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign, Color color)
 {
-	DrawString(spriteList, text.c_str(), pos, horizAlign, vertAlign);
+	DrawString(spriteList, text.c_str(), pos, horizAlign, vertAlign, color);
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void Font::DrawString(SpriteList *spriteList, char const *text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign)
+void Font::DrawString(SpriteList *spriteList, char const *text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign, Color color)
 {
-	DrawString(*spriteList, text, pos, horizAlign, vertAlign);
+	DrawString(*spriteList, text, pos, horizAlign, vertAlign, color);
 }
 
 //////////////////////////////////////////////////////////////////////
 
-void Font::DrawString(SpriteList &spriteList, char const *text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign)
+void Font::DrawString(SpriteList &spriteList, char const *text, Vec2 const &pos, Font::HorizontalAlign horizAlign, Font::VerticalAlign vertAlign, Color color)
 {
 	Vec2 drawOffset;
 	Vec2 offset;
@@ -627,7 +627,7 @@ void Font::DrawString(SpriteList &spriteList, char const *text, Vec2 const &pos,
 				++linkChars;
 				col = linkColor;
 			}
-			DrawChar(i, cursor, spriteList, c, col);
+			DrawChar(i, cursor, spriteList, c, color * col);
 		}
 	}
 }

@@ -29,6 +29,7 @@ namespace Game
 		, mDictionary(dictionary)
 		, mUndoStack(null)
 		, mUndoTiles(null)
+		, mHoverTile(null)
 	{
 		mActive = false;
 		mVisible = false;
@@ -582,6 +583,19 @@ namespace Game
 		mActiveTile->mTarget = (Vec2)d;
 		mActiveTile->mPosition = (Vec2)d;
 		mActiveTile->mState = Tile::kBeingDragged;
+
+		Point2D mid = d + Point2D(mBoard.mTileSize.x / 2, mBoard.mTileSize.y / 2);
+
+		Tile *ht = mBoard.GetTileAtScreenPosition(mid);
+		if(mHoverTile != null)
+		{
+			mHoverTile->mFlags.clear(Tile::kHoveredOver);
+		}
+		if(ht != mActiveTile)
+		{
+			mHoverTile = ht;
+			mHoverTile->mFlags.set(Tile::kHoveredOver);
+		}
 			
 		if(!Touch(0).Held())
 		{
@@ -595,6 +609,11 @@ namespace Game
 			mActiveTile->mLayer = 2;
 			mActiveTile->ResetWords();
 			mState = kSwapTiles;
+			if(mHoverTile != null)
+			{
+				mHoverTile->mFlags.clear(Tile::kHoveredOver);
+				mHoverTile = null;
+			}
 			return;
 		}
 	}

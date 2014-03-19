@@ -371,6 +371,7 @@
     <ClInclude Include="..\Source\Base\App.h" />
     <ClInclude Include="..\Source\Base\CodeTimer.h" />
     <ClInclude Include="..\Source\Base\Component.h" />
+    <ClInclude Include="..\Source\Base\Flags.h" />
     <ClInclude Include="..\Source\Base\linked_list.h" />
     <ClInclude Include="..\Source\Base\pch.h" />
     <ClInclude Include="..\Source\Base\Point.h" />
