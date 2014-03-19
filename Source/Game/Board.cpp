@@ -280,7 +280,11 @@ namespace Game
 			if(i == w->mLength)
 			{
 				mValidWords.push_back(w);
-				w->mNew = mPreviousWords.find_first_of(*w) == mPreviousWords.end();
+				w->mNew = mPreviousWords.find_first_of(*w) == null;
+				if(w->mNew)
+				{
+					TRACE("!");
+				}
 				for (int i = 0; i < w->mLength; ++i)
 				{
 					Tile &t = GetWordTile(w, i);
