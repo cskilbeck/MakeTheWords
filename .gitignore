@@ -8,6 +8,8 @@
 
 # Build results
 
+Debug/
+Release/
 D3D_Debug/
 D3D_Release/
 OpenGL_Debug/
