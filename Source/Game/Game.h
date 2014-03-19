@@ -24,6 +24,7 @@ namespace Game
 
 		enum State
 		{
+			kInit,
 			kIdle,
 			kPickDirection,
 			kDragTile,

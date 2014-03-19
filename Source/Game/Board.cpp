@@ -47,7 +47,6 @@ namespace Game
 		ResetTilePositions();
 		InitializeTileLetters(seed);
 		ResetTileIndices();
-
 		Random r;
 		for(int i=0; i<mNumTiles; ++i)
 		{
@@ -55,6 +54,8 @@ namespace Game
 			mTiles[i].mPosition.y -= Screen::Height();
 			mTiles[i].mOldState = Tile::kInvalidState;
 			mTiles[i].mState = Tile::kDrop;
+			mTiles[i].mLayer = i;
+			mTiles[i].mAtRest = false;
 		}
 	}
 

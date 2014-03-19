@@ -7,7 +7,7 @@ void UI::TextButton::Draw(SpriteList *spriteList)
 	spriteList->SetOrigin(mOrigin);
 	spriteList->SetBlendingMode(SpriteList::eBlendMode::kInterpolate);
 	Vec2 size(mSize.x, (float)mFont->GetHeight());
-	DrawOblong(*spriteList, mLocation - Vec2(-6, 4), mLocation + size + Vec2(-6, 2), 8, mColor);
+	spriteList->AddOblong(mLocation - Vec2(-6, 4), mLocation + size + Vec2(-6, 2), 8, mColor);
 	TextLabel::Draw(spriteList);
 }
 

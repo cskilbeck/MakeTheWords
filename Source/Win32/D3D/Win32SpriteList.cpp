@@ -791,7 +791,7 @@ void SpriteList::BeginLines()
 
 //////////////////////////////////////////////////////////////////////
 
-void SpriteList::AddPoint(Vec2 const &pos, Vec2 const &uv, Color color)
+void SpriteList::SetPoint(Vec2 const &pos, Vec2 const &uv, Color color)
 {
 	impl->AddPoint(pos, uv, color);
 }

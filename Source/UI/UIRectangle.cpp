@@ -28,15 +28,15 @@ namespace UI
 		spriteList->SetBlendingMode(SpriteList::eBlendMode::kInterpolate);
 		if(mBorderThickness == 0 || mBorderColor == Color::Transparent)
 		{
-			DrawSolidRectangle(*spriteList, mLocation, mSize, mColor);
+			spriteList->AddSolidRectangle(mLocation, mSize, mColor);
 		}
 		else if(mBorderThickness == 0 && mBorderColor != Color::Transparent)
 		{
-			DrawSolidOutlinedRectangle(*spriteList, mLocation, mSize, mBorderColor, mColor);
+			spriteList->AddOutlinedRectangle(mLocation, mSize, mBorderColor, mColor);
 		}
 		else
 		{
-			DrawOutlinedRoundedRectangle(*spriteList, mLocation, mSize, (float)mBorderRadius - mBorderThickness, (float)mBorderRadius, 16, mColor, mBorderColor);
+			spriteList->AddOutlinedRoundedRectangle(mLocation, mSize, (float)mBorderRadius - mBorderThickness, (float)mBorderRadius, 16, mColor, mBorderColor);
 		}
 	}
 }

@@ -77,7 +77,7 @@ namespace Game
 					if(mDropVelocity > 500)
 					{
 						mPosition.y -= (float)(mDropVelocity * g_DeltaTime);
-						mDropVelocity *= -0.4f;
+						mDropVelocity *= -0.5f;
 					}
 					else
 					{

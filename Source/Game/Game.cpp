@@ -91,7 +91,7 @@ namespace Game
 		mActiveTile = null;
 		mFirstClickedTile = null;
 		mFrames = 0;
-		mState = kIdle;
+		mState = kInit;
 		mReScoreRequired = false;
 		mStateTime = 0;
 		mCurrentScore = 0;
@@ -216,6 +216,13 @@ namespace Game
 
 		switch(mState)
 		{
+		case kInit:
+			if(mBoard.mAtRest)
+			{
+				mState = kIdle;
+			}
+			break;
+
 		case kIdle:
 			Idle();
 			break;
@@ -298,9 +305,9 @@ namespace Game
 				c = Color(255, 0, 0);
 			}
 			Vec2 org(Screen::Width() - 27.0f, 128);
-			AddArc(*mSpriteList, org, 10, 22, PI * 3, PI * 3 - r, 32, c);
-			AddArc(*mSpriteList, org, 21, 24, 0, PI * 2, 32, Color::White);
-			DrawCircle(*mSpriteList, org, 11, 32, Color::White);
+			mSpriteList->AddArc(org, 10, 22, PI * 3, PI * 3 - r, 32, c);
+			mSpriteList->AddArc(org, 21, 24, 0, PI * 2, 32, Color::White);
+			mSpriteList->AddCircle(org, 11, 32, Color::White);
 		}
 	}
 
