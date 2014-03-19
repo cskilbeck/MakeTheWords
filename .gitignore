@@ -26,6 +26,7 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+*.cso
 *.lastbuildstate
 *_i.c
 *_p.c
