@@ -273,6 +273,8 @@ MainUI::~MainUI()
 	Delete(mPostButton);
 	::Release(mFBProfileTexture);
 	::Release(mPlayButtonTexture);
+	::Release(mLoginButtonTexture);
+	::Release(mPostButtonTexture);
 	Delete(mGame);
 	Delete(mResultsUI);
 	::Release(mLabelFont);

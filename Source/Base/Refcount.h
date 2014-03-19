@@ -8,10 +8,14 @@ struct RefCount
 {
 	RefCount() : mRefCount(1)
 	{
+		allRefCountedObjects.push_back(this);
+		me = allRefCountedObjects.end();
+		--me;
 	}
 
 	virtual ~RefCount()
 	{
+		allRefCountedObjects.remove(*me);
 	}
 
 	void AddRef()
@@ -29,5 +33,15 @@ struct RefCount
 		return rc;
 	}
 
+	static void ShowLeaks()
+	{
+		for(auto p: allRefCountedObjects)
+		{
+			TRACE("Leaked Object at %p\n", p);
+		}
+	}
+
 	int mRefCount;
+	list<RefCount *>::iterator me;
+	static list<RefCount *>allRefCountedObjects;
 };

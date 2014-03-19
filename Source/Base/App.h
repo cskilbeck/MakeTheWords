@@ -14,6 +14,7 @@ struct App
 	virtual void Release() = 0;
 
 	App();
+	virtual ~App();
 };
 
 extern App *g_App;

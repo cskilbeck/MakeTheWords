@@ -10,6 +10,8 @@ SpriteList *	g_DebugSpriteList;
 double			g_DeltaTime;
 double			g_Time;
 
+list<RefCount *>RefCount::allRefCountedObjects;
+
 //////////////////////////////////////////////////////////////////////
 
 App *g_App = null;	// this will get initialized into the BSS and will therefore be null before the 1st App constructor is called
@@ -36,4 +38,9 @@ void App::Update()
 void App::Draw()
 {
 	Component::DrawAll();
+}
+
+App::~App()
+{
+	RefCount::ShowLeaks();
 }
