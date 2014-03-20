@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "pch.h"
+#include "vld.h"
 #include "Win32.h"
 #include "Facebook.h"
 
@@ -29,7 +30,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	gDebuggerAttached = IsDebuggerPresent() == TRUE;
 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF);
-	//_CrtSetBreakAlloc(6612);
+	//_CrtSetBreakAlloc(62998);
 	assert(g_App != null);
 
 	sTimer.Reset();

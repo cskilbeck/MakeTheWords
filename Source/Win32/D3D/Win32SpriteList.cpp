@@ -386,7 +386,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 		if(FAILED(hr))
 		{	
-			Delete(buffer);
+		delete[] buffer;
 			assert(false);
 			Close();
 			return hr;
@@ -401,7 +401,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		UINT numElements = ARRAYSIZE(layout);
 
 		hr = gDevice->CreateInputLayout(layout, numElements, buffer, size, &spVertexLayout);
-		Delete(buffer);
+		delete[] buffer;
 		if(FAILED(hr))
 		{
 			assert(false);
@@ -422,7 +422,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 		}
 
 		HRESULT hr = gDevice->CreatePixelShader(buffer, size, NULL, &spPixelShader);
-		Delete(buffer);
+		delete[] buffer;
 		if(FAILED(hr))
 		{
 			assert(false);

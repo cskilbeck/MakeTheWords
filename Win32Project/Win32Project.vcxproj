@@ -621,34 +621,34 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(WindowsSDK_IncludePath_x86);$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath_x86);C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Bin\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(LibraryPath)</LibraryPath>
     <TargetName>$(Configuration)_$(SolutionName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath_x86);C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Bin\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(LibraryPath)</LibraryPath>
     <TargetName>$(Configuration)_$(SolutionName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath_x86);C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Bin\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(LibraryPath)</LibraryPath>
     <TargetName>$(Configuration)_$(SolutionName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(WindowsSDK_IncludePath_x86);C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)Bin\</OutDir>
     <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
-    <LibraryPath>$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(LibraryPath)</LibraryPath>
     <TargetName>$(Configuration)_$(SolutionName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">
