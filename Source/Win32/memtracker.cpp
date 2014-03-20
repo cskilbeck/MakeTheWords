@@ -15,6 +15,8 @@
 
 //////////////////////////////////////////////////////////////////////
 
+#if defined(LEAK_TRACKING)
+
 #if defined(malloc)
 #undef malloc
 #undef free
@@ -367,3 +369,7 @@ void operator delete[](void *p)
 {
 	chs::memory_free(p);
 }
+
+//////////////////////////////////////////////////////////////////////
+
+#endif // LEAK_TRACKING
