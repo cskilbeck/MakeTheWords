@@ -14,10 +14,11 @@ typedef int32_t			int32;
 typedef int64_t			int64;
 typedef unsigned int	uint;
 typedef wchar_t			wchar;
+typedef TCHAR			tchar;
 
 typedef uint8			byte;
 
-#define null nullptr
+static const nullptr_t null = nullptr;
 
 using std::vector;
 using std::function;
@@ -30,6 +31,5 @@ using std::list;
 using std::pair;
 using std::sort;
 
-#if !defined(ARRAYSIZE)
-#define ARRAYSIZE(x) (sizeof(x) / sizeof((x)[0]))
-#endif
+typedef std::basic_string<tchar> tstring;
+

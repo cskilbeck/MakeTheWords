@@ -55,7 +55,6 @@ struct URLLoader::Impl : list_node<URLLoader::Impl>
 	Impl(URLLoader *parent) : mParent(parent), mState(New), mConnection(null)
 	{
 		sImpls().push_back(this);
-		TRACE("+IMPLS: %u\n", sImpls().size());
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -64,7 +63,6 @@ struct URLLoader::Impl : list_node<URLLoader::Impl>
 	{
 		Close();
 		sImpls().remove(this);
-		TRACE("IMPLS-: %u\n", sImpls().size());
 		if(sImpls().empty())
 		{
 			Session(true);
@@ -75,7 +73,7 @@ struct URLLoader::Impl : list_node<URLLoader::Impl>
 
 	static void TerminateAll()
 	{
-		WinHttpSetStatusCallback(Session(), NULL, 0, 0 );
+		Session(true);
 		for(auto &i: sImpls())
 		{
 			i.Close();

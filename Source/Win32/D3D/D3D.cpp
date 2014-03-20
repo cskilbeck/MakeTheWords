@@ -30,16 +30,25 @@ struct Graphics::GraphicsImpl
 
 	void Release()
 	{
+		mRenderTargetView.Release();
+		mSwapChain.Release();
+
 		if(mContext != null)
 		{
-			mContext->Flush();
 			mContext->ClearState();
+			mContext->Flush();
 		}
 
-		::Release(mRenderTargetView);
-		::Release(mContext);
-		::Release(mSwapChain);
-		::Release(mDevice);
+		mContext.Release();
+
+		if(mDevice != null)
+		{
+			DXPtr<ID3D11Debug> D3DDebug;
+			mDevice->QueryInterface(__uuidof(ID3D11Debug), (void **)&D3DDebug);
+			D3DDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			mDevice.Release();
+		}
+
 		mHWND = null;
 
 		gContext = null;
@@ -116,8 +125,8 @@ struct Graphics::GraphicsImpl
 			return false;
 		}
 
-		gDevice = mDevice;
-		gContext = mContext;
+		gDevice = mDevice.get();
+		gContext = mContext.get();
 
 		GetBackBuffer();
 
@@ -166,7 +175,7 @@ struct Graphics::GraphicsImpl
 
 	void ReleaseBackBuffer()
 	{
-		::Release(mRenderTargetView);
+		mRenderTargetView.Release();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -203,14 +212,14 @@ struct Graphics::GraphicsImpl
 
 	//////////////////////////////////////////////////////////////////////
 
-	HWND						mHWND;
-	ID3D11Device *				mDevice;
-	ID3D11DeviceContext *		mContext;
-	ID3D11RenderTargetView *	mRenderTargetView;
-	D3D_DRIVER_TYPE				mDriverType;
-	D3D_FEATURE_LEVEL			mFeatureLevel;
-	IDXGISwapChain *			mSwapChain;
+	HWND							mHWND;
+	DXPtr<ID3D11Device>				mDevice;
+	DXPtr<ID3D11DeviceContext>		mContext;
+	DXPtr<ID3D11RenderTargetView>	mRenderTargetView;
+	DXPtr<IDXGISwapChain>			mSwapChain;
 
+	D3D_DRIVER_TYPE					mDriverType;
+	D3D_FEATURE_LEVEL				mFeatureLevel;
 };
 
 Graphics gGraphics;
@@ -234,13 +243,13 @@ void Graphics::Release()
 Graphics::~Graphics()
 {
 	Release();
+	delete impl;
 }
 
 //////////////////////////////////////////////////////////////////////
 
 bool Graphics::Init(HWND hWnd)
 {
-	impl->Release();
 	bool rc = impl->Init(hWnd);
 	return rc;
 }

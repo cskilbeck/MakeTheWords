@@ -184,9 +184,9 @@ time_t ParseTime(char const *t)
 
 //////////////////////////////////////////////////////////////////////
 
-wstring GetCurrentFolder()
+tstring GetCurrentFolder()
 {
-	vector<wchar> s;
+	vector<tchar> s;
 	DWORD l = GetCurrentDirectory(0, NULL);
 	assert(l != 0);
 	s.resize((size_t)l + 1);

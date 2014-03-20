@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "pch.h"
-#include "vld.h"
 #include "Win32.h"
 #include "Facebook.h"
+#include "D3D.h"
 
 //////////////////////////////////////////////////////////////////////
 
@@ -29,8 +29,17 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
 	gDebuggerAttached = IsDebuggerPresent() == TRUE;
 
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF);
-	//_CrtSetBreakAlloc(62998);
+    _CrtSetDbgFlag(
+					_CRTDBG_ALLOC_MEM_DF |
+//					_CRTDBG_CHECK_ALWAYS_DF |
+					_CRTDBG_CHECK_CRT_DF |
+					_CRTDBG_DELAY_FREE_MEM_DF |
+					_CRTDBG_LEAK_CHECK_DF
+					);
+
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF);
+	
+	//_CrtSetBreakAlloc(2675);
 	assert(g_App != null);
 
 	sTimer.Reset();
@@ -49,12 +58,16 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	g_Time = sTimer.GetElapsed();
 	sOldTime = g_Time;
 
-	Facebook::Login(false);
+	//Facebook::Login(false);
 
 	while(Screen::Update())
 	{
 		g_Time = sTimer.GetElapsed();
 		g_DeltaTime = g_Time - sOldTime;
+		if(g_DeltaTime > 0.1)
+		{
+			g_DeltaTime = 0.1;
+		}
 		sOldTime = g_Time;
 
 		g_App->Update();
@@ -64,13 +77,13 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 		Screen::Present();
 	}
 
-	URLLoader::TerminateAll();
-	Facebook::Logout();
-
-	g_App->Release();
+	//URLLoader::TerminateAll();
+	//Facebook::Logout();
 
 	Release(g_DebugSpriteList);
 	Release(g_DebugFont);
+
+	g_App->Release();
 
 	return 0;
 }

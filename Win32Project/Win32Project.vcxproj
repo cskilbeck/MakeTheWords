@@ -345,6 +345,7 @@
     </ClCompile>
     <ClCompile Include="..\Source\Win32\Facebook.cpp" />
     <ClCompile Include="..\Source\Win32\Keyboard.cpp" />
+    <ClCompile Include="..\Source\Win32\memtracker.cpp" />
     <ClCompile Include="..\Source\Win32\OpenGL\OpenGL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
@@ -362,6 +363,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Source\Win32\Screen.cpp" />
+    <ClCompile Include="..\Source\Win32\StackWalk.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Source\Win32\strptime.cpp" />
     <ClCompile Include="..\Source\Win32\URLLoader.cpp" />
     <ClCompile Include="..\Source\Win32\Util.cpp" />
@@ -482,6 +490,7 @@
     <ClInclude Include="..\Source\Win32\D3D\D3D.h" />
     <ClInclude Include="..\Source\Win32\D3D\WICTextureLoader.h" />
     <ClInclude Include="..\Source\Win32\Keyboard.h" />
+    <ClInclude Include="..\Source\Win32\memtracker.h" />
     <ClInclude Include="..\Source\Win32\OpenGL\PngLoader.h" />
     <ClInclude Include="..\Source\Win32\Timer.h" />
     <ClInclude Include="..\Source\Win32\Win32.h" />

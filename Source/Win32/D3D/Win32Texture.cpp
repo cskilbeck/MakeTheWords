@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "pch.h"
+#include "D3D.h"
 #include "Win32.h"
 #include "WICTextureLoader.h"
 
@@ -70,20 +71,21 @@ struct Texture::TextureImpl
 
 			if(FAILED(hr))
 			{
-				::Release(mTexture2D);
+				mTexture2D.Release();
 			}
 		}
 	}
 
 	~TextureImpl()
 	{
-		::Release(mShaderResourceView);
-		::Release(mTexture2D);
+		mShaderResourceView.Release();
+		mTexture2D.Release();
 	}
 
-	ID3D11Texture2D	*			mTexture2D;
-	ID3D11ShaderResourceView *	mShaderResourceView;
-	D3D11_TEXTURE2D_DESC		mTextureDesc;
+	DXPtr<ID3D11Texture2D>			mTexture2D;
+	DXPtr<ID3D11ShaderResourceView>	mShaderResourceView;
+
+	D3D11_TEXTURE2D_DESC			mTextureDesc;
 };
 
 //////////////////////////////////////////////////////////////////////

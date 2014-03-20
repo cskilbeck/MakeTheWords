@@ -4,6 +4,12 @@
 
 //////////////////////////////////////////////////////////////////////
 
+#if !defined(ARRAYSIZE)
+#define ARRAYSIZE(x) (sizeof(x) / sizeof((x)[0]))
+#endif
+
+//////////////////////////////////////////////////////////////////////
+
 void TRACE(char const *strMsg, ...);
 void TRACE(wchar const *strMsg, ...);
 
@@ -20,7 +26,7 @@ string StringFromWideString(wstring const &str);
 wstring Format(wchar const *fmt, ...);
 string Format(char const *fmt, ...);
 
-wstring GetCurrentFolder();
+tstring GetCurrentFolder();
 
 #ifndef PI
 #define PI 3.14159265f

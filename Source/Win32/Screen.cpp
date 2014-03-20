@@ -392,7 +392,7 @@ namespace Screen
 	void Init(int width, int height)
 	{
 		g_Screen.Init(width, height);
-		gGraphics.Init(g_Screen.mHWND);
+//		gGraphics.Init(g_Screen.mHWND);
 		g_Screen.OnResize = []
 		{
 			if(OnResize != null)

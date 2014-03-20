@@ -20,3 +20,8 @@ inline void CD(wchar const *relative)
 	SetCurrentDirectory(p);
 }
 
+namespace chs
+{
+	void *memory_alloc(size_t size);
+	void memory_free(void *p);
+}

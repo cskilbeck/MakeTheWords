@@ -106,16 +106,17 @@ struct SpriteList::SpriteListImpl
 
 	SpriteVertex					mFanBase[2];
 
-	ID3D11Buffer *					mVertexBuffer[2];
-	ID3D11Buffer *					mCBProjection;
-	ID3D11RasterizerState *			mRasterizerState;
-	ID3D11BlendState *				mBlendState;
-	ID3D11SamplerState *			mSamplerLinear;
+	DXPtr<ID3D11Buffer>			mVertexBuffer[2];
+	DXPtr<ID3D11Buffer>			mCBProjection;
+	DXPtr<ID3D11RasterizerState>	mRasterizerState;
+	DXPtr<ID3D11BlendState>		mBlendState;
+	DXPtr<ID3D11SamplerState>		mSamplerLinear;
 
-	static ID3D11InputLayout *		spVertexLayout;
-	static ID3D11PixelShader *		spPixelShader;
-	static ID3D11VertexShader *		spVertexShader;
-	static Texture *				sWhiteTexture;
+	static DXPtr<ID3D11InputLayout>	spVertexLayout;
+	static DXPtr<ID3D11PixelShader>	spPixelShader;
+	static DXPtr<ID3D11VertexShader>	spVertexShader;
+
+	static Texture *					sWhiteTexture;
 
 	static linked_list<SpriteList, &SpriteList::mListNode>	sAllSpriteLists;
 
@@ -134,16 +135,17 @@ linked_list<SpriteList, &SpriteList::mListNode> SpriteList::SpriteListImpl::sAll
 
 //////////////////////////////////////////////////////////////////////
 
-ID3D11InputLayout *			SpriteList::SpriteListImpl::spVertexLayout = null;
-ID3D11PixelShader *			SpriteList::SpriteListImpl::spPixelShader = null;
-ID3D11VertexShader *		SpriteList::SpriteListImpl::spVertexShader = null;
+DXPtr<ID3D11InputLayout>	SpriteList::SpriteListImpl::spVertexLayout = null;
+DXPtr<ID3D11PixelShader>	SpriteList::SpriteListImpl::spPixelShader = null;
+DXPtr<ID3D11VertexShader>	SpriteList::SpriteListImpl::spVertexShader = null;
 Texture *					SpriteList::SpriteListImpl::sWhiteTexture = null;
 
 //////////////////////////////////////////////////////////////////////
 
 HRESULT CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
-extern ID3D11Device *gDevice;
-extern ID3D11DeviceContext *gContext;
+
+extern ID3D11Device *			gDevice;
+extern ID3D11DeviceContext *	gContext;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -353,16 +355,15 @@ SpriteList::SpriteListImpl::~SpriteListImpl()
 	mCurrentIndex = 0;
 	mCurrentVertBufferIndex = 0;
 
+	mVertexBuffer[0].Release();
+	mCBProjection.Release();
+	mRasterizerState.Release();
+	mBlendState.Release();
+	mSamplerLinear.Release();
+
 	Delete(mSpriteRuns);
 	Delete(mSpriteVerts0);
 	Delete(mSpriteVerts1);
-
-	::Release(mVertexBuffer[0]);
-	::Release(mVertexBuffer[1]);
-	::Release(mCBProjection);
-	::Release(mRasterizerState);
-	::Release(mBlendState);
-	::Release(mSamplerLinear);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -386,7 +387,7 @@ HRESULT SpriteList::SpriteListImpl::Open()
 
 		if(FAILED(hr))
 		{	
-		delete[] buffer;
+			delete[] buffer;
 			assert(false);
 			Close();
 			return hr;
@@ -439,9 +440,9 @@ HRESULT SpriteList::SpriteListImpl::Open()
 void SpriteList::SpriteListImpl::Close()
 {
 	::Release(sWhiteTexture);
-	::Release(spVertexLayout);
-	::Release(spVertexShader);
-	::Release(spPixelShader);
+	spVertexLayout.Release();
+	spPixelShader.Release();
+	spVertexShader.Release();
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -97,8 +97,9 @@ using std::array;
 //////////////////////////////////////////////////////////////////////
 
 #include "Types.h"
-#include "Flags.h"
+#include "memtracker.h"
 #include "Util.h"
+#include "Flags.h"
 #include "Value.h"
 #include "Vec2.h"
 #include "Point.h"
