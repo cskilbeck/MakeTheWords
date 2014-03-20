@@ -71,17 +71,6 @@ template <typename T> inline int64 asciiToInt64(T const *p)
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> void Delete(T (&arr)[])
-{
-	if(arr != null)
-	{
-		delete[] arr;
-		arr = null;
-	}
-}
-
-//////////////////////////////////////////////////////////////////////
-
 template <typename T> void Delete(T * &arr)
 {
 	if(arr != null)

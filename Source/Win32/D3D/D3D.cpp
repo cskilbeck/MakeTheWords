@@ -16,13 +16,9 @@ struct Graphics::GraphicsImpl
 	//////////////////////////////////////////////////////////////////////
 
 	GraphicsImpl()
-		: mDevice(null)
-		, mContext(null)
-		, mDriverType(D3D_DRIVER_TYPE_NULL)
+		: mDriverType(D3D_DRIVER_TYPE_NULL)
 		, mFeatureLevel(D3D_FEATURE_LEVEL_9_1)
-		, mSwapChain(null)
 		, mHWND(null)
-		, mRenderTargetView(null)
 	{
 	}
 
@@ -43,9 +39,12 @@ struct Graphics::GraphicsImpl
 
 		if(mDevice != null)
 		{
-			DXPtr<ID3D11Debug> D3DDebug;
-			mDevice->QueryInterface(__uuidof(ID3D11Debug), (void **)&D3DDebug);
-			D3DDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			#if defined(DEBUG)
+				DXPtr<ID3D11Debug> D3DDebug;
+				mDevice->QueryInterface(__uuidof(ID3D11Debug), (void **)&D3DDebug);
+				D3DDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+				D3DDebug.Release();
+			#endif
 			mDevice.Release();
 		}
 

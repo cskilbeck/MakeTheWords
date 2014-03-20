@@ -75,6 +75,11 @@ private:
 	Graphic *			mGraphics;
 };
 
+template<typename T> bool operator == (Font const &f, T const &other)
+{
+	return f.mName == other;
+}
+
 //////////////////////////////////////////////////////////////////////
 
 struct FontManager

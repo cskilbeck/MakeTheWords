@@ -79,6 +79,7 @@ Font::~Font()
 	Delete(mLayers);
 	Delete(mKerningValues);
 	Delete(mGraphics);
+	TRACE("~Font:%s\n", mName.c_str());
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -651,14 +652,14 @@ float Font::GetBaseline() const
 Font *FontManager::Load(char const *name)
 {
 	string l = ToLower(name);
-	for(auto &f: sAllFonts)
+	Font *f = sAllFonts.find_first_of(l);
+	if(f != null)
 	{
-		if(f.mName == name)
-		{
-			return &f;
-		}
+		f->AddRef();
+		TRACE("Reusing font %s (%d)\n", l.c_str(), f->mRefCount);
+		return f;
 	}
-	Font *f = new Font();
+	f = new Font();
 	f->LoadFromFile(name);
 	return f;
 }

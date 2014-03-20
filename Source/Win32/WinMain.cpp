@@ -37,8 +37,6 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 					_CRTDBG_LEAK_CHECK_DF
 					);
 
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF);
-	
 	//_CrtSetBreakAlloc(2675);
 	assert(g_App != null);
 
@@ -84,6 +82,5 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 	Release(g_DebugFont);
 
 	g_App->Release();
-
 	return 0;
 }

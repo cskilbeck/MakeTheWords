@@ -62,20 +62,24 @@ STACKFRAME64 init_stack_frame(CONTEXT c)
 
 struct memory_block : list_node<memory_block>
 {
-	size_t			block_size;
+	size_t			block_size;		// client size of allocated memory
 	size_t			frame_count;
-	void *			mem_block;
-	size_t			alignment;
-	DWORD64			stack[64];
+
+	void *get_pointer()
+	{
+		return (char *)(this + 1) + sizeof(memory_block *) + sizeof(DWORD64) * frame_count;
+	}
 };
 
 #pragma pack(pop)
 
 //////////////////////////////////////////////////////////////////////
 
-static void *				base;
-static HANDLE				process;
-linked_list<memory_block>	memory_block_list;
+static void *						base;
+static HANDLE						process;
+static size_t						amount;
+static size_t						high_water_mark;
+static linked_list<memory_block>	memory_block_list;
 
 //////////////////////////////////////////////////////////////////////
 
@@ -181,10 +185,10 @@ void dump_stack(memory_block &b)
     sym_options(SYMOPT_LOAD_LINES | SYMOPT_UNDNAME);
     IMAGE_NT_HEADERS *h = ImageNtHeader(base);
     DWORD image_type = h->FileHeader.Machine;
-	DWORD64 *s = b.stack;
+	DWORD64 *s = (DWORD64 *)((&b) + 1);
 	sprintf_s(buf, "\nLeaked %llu bytes:\n", (uint64)b.block_size);
 	OutputDebugStringA(buf);
-	for(int n = 0; n < ARRAYSIZE(b.stack); ++n)
+	for(uint n = 0; n < b.frame_count; ++n)
 	{
 		buf[0] = 0;
 		DWORD64 addr = *s++;
@@ -222,6 +226,7 @@ void dump_stack(memory_block &b)
 
 void *get_mem(size_t size, size_t align)
 {
+	DWORD64 stack[64];
 	size_t aligned_size = size + align - 1 + sizeof(memory_block *);
 	HANDLE thread = GetCurrentThread();
 	CONTEXT c;
@@ -230,14 +235,8 @@ void *get_mem(size_t size, size_t align)
 	IMAGE_NT_HEADERS *h = ImageNtHeader(base);
     DWORD image_type = h->FileHeader.Machine;
 	size_t total_size = aligned_size + sizeof(memory_block);
-	memory_block *block = reinterpret_cast<memory_block *>(malloc(total_size));
-	char *base = (char *)(block + 1) + sizeof(memory_block *);
-	base = (char *)(((intptr_t)base + ((align - 1)) % align));
-	((memory_block **)base)[-1] = block;
-	block->block_size = size;
-	block->frame_count = 0;
-	block->alignment = align;
-	block->mem_block = base;
+
+	memory_block *block;
 	int n = 0;
 	do
 	{
@@ -245,46 +244,48 @@ void *get_mem(size_t size, size_t align)
 		{
             break;
 		}
-		block->stack[n++] = s.AddrPC.Offset;
-        ++block->frame_count;
+		stack[n++] = s.AddrPC.Offset;
 
     } while (s.AddrReturn.Offset != 0);
-	if(n < ARRAYSIZE(block->stack))
-	{
-		block->stack[n++] = 0;
-	}
+
+	total_size += n * sizeof(DWORD64);
+
+	block = reinterpret_cast<memory_block *>(malloc(total_size));
+	char *base = (char *)(block + 1) + n * sizeof(DWORD64) + sizeof(memory_block *);
+	base = (char *)(((intptr_t)base + ((align - 1)) % align));
+	((memory_block **)base)[-1] = block;
+	block->block_size = size;
+	block->frame_count = 0;
 	memory_block_list.push_back(block);
-	return block->mem_block;
+	return base;
 }
 
 //////////////////////////////////////////////////////////////////////
 
 void __cdecl dump_leaks()
 {
-	char const *header = "MEMORY LEAKS DETECTED:\n";
-	if(memory_block_list.empty())
+	TRACE("\n=========================================================\n");
+	TRACE("= LEAK REPORT ===========================================\n");
+	TRACE("=========================================================\n");
+	TRACE("Max total alloc size: %u\n", high_water_mark);
+	uint n = 0;
+	if(!memory_block_list.empty())
 	{
-		TRACE("\n= NO MEMORY LEACKS DETECTED =======================================================================\n");
-	}
-	else
-	{
-		TRACE("\n= MEMORY LEAKS DETECTED ===========================================================================\n");
-		uint n = 0;
+		TRACE("\n= MEMORY LEAKS DETECTED:\n");
 		for(auto &b: reverse(memory_block_list))
 		{
 			dump_stack(b);
 			++n;
 		}
-		TRACE("Total: %d leaks\n", n);
-		TRACE("\n= END OF LEAK REPORT ==============================================================================\n");
 	}
-
+	TRACE("Total: %d leaks\n", n);
+	TRACE("=========================================================\n");
+	TRACE("= END OF LEAK REPORT ====================================\n");
+	TRACE("=========================================================\n");
 	SymCleanup(process);
 }
 
 //////////////////////////////////////////////////////////////////////
-
-static size_t amount;
 
 void *memory_alloc(size_t size, size_t align)
 {
@@ -292,7 +293,10 @@ void *memory_alloc(size_t size, size_t align)
 	{
 		// huh, seems to need an extra frame to get the caller!?
 		amount += size;
-	//	TRACE("memory_alloc(%u,%u) =%d\n", size, align, amount);
+		if(amount > high_water_mark)
+		{
+			high_water_mark = amount;
+		}
 		return get_mem(size, align);
 	}
 	else
@@ -311,7 +315,6 @@ void memory_free(void *p)
 		memory_block *m = p1[-1];
 		memory_block_list.remove(m);
 		amount -= m->block_size;
-	//	TRACE("memory_free(%u) (%u) =%d\n", m->block_size, m->alignment, amount);
 		free(m);
 	}
 }
@@ -320,6 +323,7 @@ void memory_free(void *p)
 
 void memory_init()
 {
+	high_water_mark = 0;
 	amount = 0;
 	memory_block_list.clear();
 	process = GetCurrentProcess();

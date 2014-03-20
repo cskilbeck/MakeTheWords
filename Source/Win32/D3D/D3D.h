@@ -21,43 +21,6 @@ extern ID3D11DeviceContext *	gContext;
 
 //////////////////////////////////////////////////////////////////////
 
-template <typename T> struct DXResource
-{
-	T *resource;
-	void *callstack;
-
-	DXResource(T *p = null) : resource(p)
-	{
-		callstack = new char[1];
-	}
-
-	operator T*()
-	{
-		return resource;
-	}
-
-	T ** operator &()
-	{
-		return &resource;
-	}
-
-	T *operator ->()
-	{
-		return resource;
-	}
-
-	static void Release(DXResource<T> *p)
-	{
-		if(p->resource != null)
-		{
-			p->resource->Release();
-			p->resource = null;
-		}
-	}
-};
-
-//////////////////////////////////////////////////////////////////////
-
 template<typename T> struct DXPtr
 {
 	DXPtr(T *init = nullptr) : p(init)
@@ -65,17 +28,17 @@ template<typename T> struct DXPtr
 		leak = malloc(1);
 	}
 
-	DXPtr(const DXPtr& ptr) : p(ptr.p)
+	DXPtr(DXPtr const &ptr) : p(ptr.p)
 	{
 		p->AddRef();
 	}
 
-	DXPtr(DXPtr&& ptr) : p(nullptr)
+	DXPtr(DXPtr &&ptr) : p(nullptr)
 	{
 		std::swap(p, ptr.p);
 	}
 
-	DXPtr &operator=(const DXPtr &ptr)
+	DXPtr &operator=(DXPtr const &ptr)
 	{
 		reset();
 		p = ptr.p;
