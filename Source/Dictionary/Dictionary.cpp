@@ -116,6 +116,34 @@ namespace Reference
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	void find_and_replace(string& source, string const& find, string const& replace)
+	{
+		for(std::string::size_type i = 0; (i = source.find(find, i)) != std::string::npos;)
+		{
+			source.replace(i, find.length(), replace);
+			i += replace.length() - find.length() + 1;
+		}
+	}
+
+	void Dictionary::SaveAsJSON()
+	{
+		FILE *f;
+		if(fopen_s(&f, "C:\\Users\\chs\\dictionary.json", "w") == 0)
+		{
+			fputs("Dictionary = {\n", f);
+			for(uint i=0; i<mNumWords; ++i)
+			{
+				char *p = Dictionary::mWord + i * 8;
+				string s = GetDefinition(i, "", "\\n");
+				find_and_replace(s, "\"", "'");
+				fprintf_s(f, "\t\"%s\": \"%s\"%s\n", p, s.c_str(), (i < mNumWords - 1) ? "," : "");
+			}
+			fputs("}\n", f);
+			fclose(f);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
 
 	// 16 byte header:
 
@@ -170,6 +198,7 @@ namespace Reference
 				}
 			}
 		}
+		SaveAsJSON();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -218,7 +247,7 @@ namespace Reference
 
 	//////////////////////////////////////////////////////////////////////
 
-	string Dictionary::GetDefinition(int wordIndex)
+	string Dictionary::GetDefinition(int wordIndex, char const *prepend, char const *appendText)
 	{
 		string definition;
 
@@ -232,7 +261,8 @@ namespace Reference
 			{
 				if((mask & (1 << i)) != 0)
 				{
-					definition += " (";
+					definition += prepend;
+					definition += "(";
 					definition += sDefinitionNames[i];
 					definition += ") ";
 
@@ -252,7 +282,7 @@ namespace Reference
 						definition += mWord + word * 8;
 						definition += "@";
 					}
-					definition += "\n";
+					definition += appendText;
 				}
 			}
 		}

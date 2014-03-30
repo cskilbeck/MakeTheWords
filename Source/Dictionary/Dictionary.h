@@ -12,9 +12,11 @@ namespace Reference
 	{
 		static Dictionary *	Load(char const *filename);
 
+		void				SaveAsJSON();
+
 		int					WordIndex(char const *word);
 		char const *		GetWord(int wordIndex);
-		string				GetDefinition(int wordIndex);
+		string				GetDefinition(int wordIndex, char const *prepend = " ", char const *appendText = "\n");
 	
 	private:
 
