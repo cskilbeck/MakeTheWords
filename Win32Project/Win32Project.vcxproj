@@ -363,13 +363,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Source\Win32\Screen.cpp" />
-    <ClCompile Include="..\Source\Win32\StackWalk.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">NotUsing</PrecompiledHeader>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D_Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Source\Win32\strptime.cpp" />
     <ClCompile Include="..\Source\Win32\URLLoader.cpp" />
     <ClCompile Include="..\Source\Win32\Util.cpp" />
