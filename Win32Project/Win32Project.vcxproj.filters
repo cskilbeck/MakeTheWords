@@ -346,9 +346,6 @@
     <ClCompile Include="..\Source\Game\Summary.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Win32\StackWalk.cpp">
-      <Filter>Source Files\Win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Win32\memtracker.cpp">
       <Filter>Source Files\Win32</Filter>
     </ClCompile>
