@@ -456,6 +456,7 @@
     <ClInclude Include="..\Source\Game\Tile.h" />
     <ClInclude Include="..\Source\Game\Word.h" />
     <ClInclude Include="..\Source\Gfx\Color.h" />
+    <ClInclude Include="..\Source\Gfx\Entity.h" />
     <ClInclude Include="..\Source\Gfx\Font.h" />
     <ClInclude Include="..\Source\Gfx\Graphics.h" />
     <ClInclude Include="..\Source\Gfx\Particles.h" />
