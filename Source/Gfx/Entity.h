@@ -2,14 +2,13 @@
 
 namespace glib
 {
-
 	//////////////////////////////////////////////////////////////////////
 
 	struct Point
 	{
 		//////////////////////////////////////////////////////////////////////
 
-		float x,y;
+		float x, y;
 
 		//////////////////////////////////////////////////////////////////////
 
@@ -35,6 +34,13 @@ namespace glib
 
 	//////////////////////////////////////////////////////////////////////
 
+	Point operator + (Point const &a, Size const &s)
+	{
+		return Point(a.x + s.w, a.y + s.h);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+
 	Point operator - (Point const &a, Point const &b)
 	{
 		return Point(a.x - b.x, a.y - b.y);
@@ -42,11 +48,50 @@ namespace glib
 
 	//////////////////////////////////////////////////////////////////////
 
+	struct Size
+	{
+		float w, h;
+
+		Size()
+		{
+		}
+
+		Size(float _w, float _h)
+			: w(_w)
+			, h(_h)
+		{
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////
+
+	struct Rect: Point, Size
+	{
+		Rect()
+		{
+		}
+
+		Rect(float _x, float _y, float _w, float _h)
+			: Point(_x, _y)
+			, Size(_w, _h)
+		{
+		}
+
+		bool Contains(Point p)
+		{
+			float dx = x - p.x;
+			float dy = y - p.y;
+			return dx >= 0 && dy >= 0 && dx < w && dy < h;
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////
+
 	struct Matrix
 	{
 		//////////////////////////////////////////////////////////////////////
 
-		float m0, m1, m2, m3, m4, m5, m6;
+		float a, b, c, d, e, f;
 
 		//////////////////////////////////////////////////////////////////////
 
@@ -57,62 +102,58 @@ namespace glib
 		//////////////////////////////////////////////////////////////////////
 
 		Matrix(float a, float b, float c, float d, float e, float f)
+			: a(a) , b(b) , c(c) , d(d) , e(e) , f(f)
 		{
-			m0 = a; m1 = b; m2 = c; m3 = d; m4 = e; m5 = f;
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
-		Matrix(Matrix const &a)
+		Matrix(Matrix const &m)
+			: a(m.a) , b(m.b) , c(m.c) , d(m.d) , e(m.e) , f(m.f)
 		{
-			m0 = a.m0; m1 = a.m1; m2 = a.m2; m3 = a.m3; m4 = a.m4; m5 = a.m5;
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
 		Matrix Translate(Point p) const
 		{
-			return Matrix(m0, m1, m2, m3, m4 + p.x, m5 + p.y);
+			return Matrix(a, b, c, d, e + p.x, f + p.y);
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
 		Matrix Rotate(float radians) const
 		{
-			float cos = cosf(radians);
-			float sin = sinf(radians),
-			float r00 = m0 * cos + m2 * -sin,
-			float r01 = m1 * cos + m3 * -sin,
-			float r10 = m0 * sin + m2 * cos,
-			float r11 = m1 * sin + m3 * cos;
-			return Matrix(r00, r01, r10, r11, m4, m5);
+			float C = cosf(radians);
+			float S = sinf(radians);
+			return Matrix(a * C + c * -S, b * C + d * -S, a * S + c * C, b * S + d * C, e, f);
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
 		Matrix Scale(Point s) const
 		{
-			return Matrix(m0 * s.x, m1 * s.x, m2 * s.y, m3 * s.y, m4, m5);
+			return Matrix(a * s.x, b * s.x, c * s.y, d * s.y, e, f);
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
 		Matrix Invert() const
 		{
-			float d = m0 * m3 - m1 * m2;
-			if (d < 1.0e-6 && d > -1.0e-6)
+			float x = a * d - b * c;
+			if (x < 1.0e-6 && x > -1.0e-6)
 			{
 				return Matrix(*this);
 			}
-			d = 1.0f / d;
-			return Matrix(m3 * d, m1 * -d, m2 * -d, m0 * d, (m2 * m5 - m3 * m4) * d, (m0 * m5 - m1 * m4) * -d);
+			x = 1.0f / x;
+			return Matrix(d * x, b * -x, c * -x, a * x, (c * f - d * e) * x, (a * f - b * e) * -x);
 		}
 
 		//////////////////////////////////////////////////////////////////////
 
 		Point Apply(Point const &p) const
 		{
-			return Point(p.x * m0 + p.y * m2 + m4, p.x * m1 + p.y * m3 + m5);
+			return Point(p.x * a + p.y * c + e, p.x * b + p.y * d + f);
 		}
 
 		//////////////////////////////////////////////////////////////////////
@@ -123,8 +164,8 @@ namespace glib
 			{
 				float x = p[i].x;
 				float y = p[i].y;
-				p[i].x = x * m0 + y * m2 + m4;
-				p[i].y = x * m1 + y * m3 + m5;
+				p[i].x = x * a + y * c + e;
+				p[i].y = x * b + y * d + f;
 			}
 		}
 
@@ -137,13 +178,12 @@ namespace glib
 
 		//////////////////////////////////////////////////////////////////////
 
-		static Matrix RotTransScale(float radians, Point trans, Point scale)
+		static Matrix RotTransScale(float radians, Point t, Point s)
 		{
-			float cos = cosf(radians);
-			float sin = sinf(radians);
-			return Matrix(cos * scale.x, -sin * scale.x, sin * scale.y, cos * scale.y, trans.x, trans.y);
+			float cs = cosf(radians);
+			float sn = sinf(radians);
+			return Matrix(cs * s.x, -sn * s.x, sn * s.y, cs * s.y, t.x, t.y);
 		}
-
 	};
 
 	//////////////////////////////////////////////////////////////////////
@@ -151,12 +191,12 @@ namespace glib
 	inline Matrix operator * (Matrix const &a, Matrix const &b)
 	{
 		return Matrix(
-			a.m0 * b.m0 + a.m2 * b.m1,
-			a.m1 * b.m0 + a.m3 * b.m1,
-			a.m0 * b.m2 + a.m2 * b.m3,
-			a.m1 * b.m2 + a.m3 * b.m3,
-			a.m0 * b.m4 + a.m2 * b.m5 + a.m4,
-			a.m1 * b.m4 + a.m3 * b.m5 + a.m5);
+			a.a * b.a + a.c * b.b,
+			a.b * b.a + a.d * b.b,
+			a.a * b.c + a.c * b.d,
+			a.b * b.c + a.d * b.d,
+			a.a * b.e + a.c * b.f + a.e,
+			a.b * b.e + a.d * b.f + a.f);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -168,21 +208,23 @@ namespace glib
 
 	//////////////////////////////////////////////////////////////////////
 
-	struct Entity : RefCount, chs::list_node<Entity>
+	struct Entity
 	{
 		//////////////////////////////////////////////////////////////////////
 
-		Entity *					parent;
-		chs::linked_list<Entity>	children;
-		Point						position;
-		Point						size;
-		Point						pivot;
-		Point						scale;
-		float						rotation;
-		int							z_index;
-		Matrix						transform;
-		Matrix						inverse_transform;
-		bool						closed;
+		Entity *										parent;				// can be null
+		chs::list_node<Entity>							list_node;			// list_node for children list
+		chs::linked_list<Entity, &Entity::list_node>	children;			// list of children
+		Matrix											transform;			// calculated during Draw()
+		Matrix											inverse_transform;	// used for Pick()
+		bool											closed;				// close requested
+
+		Point											position;
+		Size											size;
+		Point											pivot;
+		Point											scale;
+		float											rotation;
+		int												z_index;
 
 		//////////////////////////////////////////////////////////////////////
 
@@ -212,7 +254,7 @@ namespace glib
 
 		//////////////////////////////////////////////////////////////////////
 
-		virtual void OnDraw()
+		virtual void OnDraw(SpriteList &spriteList)
 		{
 		}
 
@@ -265,6 +307,17 @@ namespace glib
 
 		//////////////////////////////////////////////////////////////////////
 
+		void GetCorners(Point p[])
+		{
+			p[0] = position;
+			p[1] = position + Size(size.w, 0);
+			p[2] = position + size;
+			p[3] = position + Size(0, size.h);
+			transform.Transform(p, 4);	// the 4 corners transformed to screen coordinates
+		}
+
+		//////////////////////////////////////////////////////////////////////
+
 		void Update(float time, float delta_time)
 		{
 			for(auto &e : children)
@@ -276,13 +329,15 @@ namespace glib
 
 		//////////////////////////////////////////////////////////////////////
 
-		void Draw(Matrix &m)
+		void Draw(Matrix &m, SpriteList &spriteList)
 		{
-			Point p(-pivot.x * size.x, -pivot.y * size.y);
+			static Point p[4];
+			chs::linked_list<Entity> closed;
+			Point p(-pivot.x * size.w, -pivot.y * size.h);
 			transform = Matrix::Identity().Translate(position).Rotate(rotation).Scale(scale).Translate(p) * m;
 			inverse_transform = transform.Invert();
 			// add matrix to render queue
-			OnDraw();
+			OnDraw(spriteList);
 			for(auto i = children.begin(), _end = children.end(), n = i; ++n, i != _end; i = n)
 			{
 				if(i->closed)
@@ -290,14 +345,66 @@ namespace glib
 					i->OnClosing();
 					children.remove(i);
 					i->parent = null;
-					i->OnClosed();
+					closed.push_back(i);
 				}
 			}
 			children.sort();
 			for(auto &e : children)
 			{
-				e.Draw(transform);
+				e.Draw(transform, spriteList);
 			}
+			for(auto &c : closed)
+			{
+				c.OnClosed();
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////
+
+	struct Image : RefCount
+	{
+		Image()
+			: RefCount()
+		{
+		}
+
+		virtual ~Image()
+		{
+		}
+
+		int width;
+		int height;
+	};
+
+	//////////////////////////////////////////////////////////////////////
+
+	struct Sprite : Entity
+	{
+		Sprite(Texture *texture)
+			: Entity()
+			, texture(texture)
+		{
+			texture->AddRef();
+			size.w = (float)texture->Width();
+			size.h = (float)texture->Height();
+		}
+
+		~Sprite()
+		{
+			Release(texture);
+		}
+
+		Texture *texture;
+
+		void OnDraw(SpriteList &spriteList) override
+		{
+			static Point p[4];
+			GetCorners(p);
+			spriteList.SetTexture(texture);
+			spriteList.BeginStrip();
+			spriteList.SetOrigin
+
 		}
 	};
 
@@ -307,5 +414,5 @@ namespace glib
 
 void Bob()
 {
-	Entity p;
+	glib::Entity p;
 }
